@@ -1142,3 +1142,633 @@ feed-card,
     grid-template-columns: 1fr;
   }
 }
+
+/* ================================
+   PHASE 6: UI POLISH + MOBILE UX
+   Add this at the very bottom
+================================ */
+
+/* App-wide polish */
+::selection {
+  background: rgba(255, 176, 0, 0.35);
+  color: #102018;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(16, 32, 24, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 32, 24, 0.22);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 32, 24, 0.36);
+}
+
+/* Softer app background layer */
+.main-area::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 65% 8%, rgba(255, 176, 0, 0.13), transparent 360px),
+    radial-gradient(circle at 90% 35%, rgba(41, 190, 253, 0.12), transparent 340px),
+    radial-gradient(circle at 40% 95%, rgba(71, 230, 193, 0.1), transparent 400px);
+}
+
+/* Better focus states */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(255, 176, 0, 0.55);
+  outline-offset: 3px;
+}
+
+/* Better clickable behavior */
+.side-nav a,
+.sub-nav a,
+.primary-button,
+.secondary-button,
+.primary-small,
+.search-button,
+.path-option,
+.action-card,
+.market-card,
+.small-card,
+.data-card,
+.feed-card,
+.match-card-phase4,
+.task-card,
+.toggle-card {
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.primary-small:hover,
+.search-button:hover,
+.path-option:hover,
+.action-card:hover,
+.market-card:hover,
+.small-card:hover,
+.data-card:hover,
+.feed-card:hover,
+.match-card-phase4:hover,
+.task-card:hover,
+.toggle-card:hover {
+  transform: translateY(-2px);
+}
+
+.action-card:hover,
+.market-card:hover,
+.small-card:hover,
+.data-card:hover,
+.feed-card:hover,
+.match-card-phase4:hover,
+.task-card:hover,
+.toggle-card:hover {
+  box-shadow: 0 22px 55px rgba(16, 32, 24, 0.1);
+  border-color: rgba(244, 104, 33, 0.18);
+}
+
+/* Sidebar improvements */
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 32, 24, 0.22) transparent;
+}
+
+.sidebar-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding-bottom: 12px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(255, 255, 255, 0.76) 70%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  backdrop-filter: blur(16px);
+}
+
+.side-nav a {
+  position: relative;
+  overflow: hidden;
+}
+
+.side-nav a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255, 176, 0, 0.12), transparent);
+  transition: opacity 0.18s ease;
+}
+
+.side-nav a:hover::after {
+  opacity: 1;
+}
+
+.side-nav a.active::after {
+  opacity: 0;
+}
+
+/* Topbar polish */
+.topbar {
+  border-bottom: 1px solid rgba(16, 32, 24, 0.06);
+}
+
+.topbar h1 {
+  max-width: 780px;
+}
+
+.breadcrumb {
+  letter-spacing: 0.02em;
+}
+
+/* Better hero */
+.hero-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 260px;
+  height: 260px;
+  border-radius: 999px;
+  background: rgba(255, 176, 0, 0.18);
+  filter: blur(4px);
+}
+
+.hero-card::after {
+  content: "";
+  position: absolute;
+  bottom: -140px;
+  left: 30%;
+  width: 280px;
+  height: 280px;
+  border-radius: 999px;
+  background: rgba(41, 190, 253, 0.12);
+  filter: blur(6px);
+}
+
+.hero-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Better cards */
+.panel,
+.hero-card,
+.profile-header,
+.result-box,
+.action-card,
+.small-card,
+.data-card,
+.market-card,
+.stat-card,
+.notification-card,
+.toggle-card,
+.feed-card,
+.review-card,
+.match-card-phase4,
+.task-card,
+.kanban-column,
+.score-row,
+.phase5-card,
+.step-card,
+.certificate-card,
+.admin-table,
+.danger-panel {
+  backdrop-filter: blur(14px);
+}
+
+/* Better stats */
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: "";
+  position: absolute;
+  right: -28px;
+  bottom: -28px;
+  width: 86px;
+  height: 86px;
+  border-radius: 999px;
+  background: rgba(255, 176, 0, 0.15);
+}
+
+.stat-card strong,
+.stat-card span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Better sub navigation */
+.sub-nav {
+  position: sticky;
+  top: 96px;
+  z-index: 15;
+  padding: 10px 0;
+  background: rgba(246, 241, 231, 0.82);
+  backdrop-filter: blur(18px);
+}
+
+.sub-nav a {
+  white-space: nowrap;
+}
+
+/* Better form appearance */
+input,
+select {
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+input:hover,
+select:hover {
+  border-color: rgba(244, 104, 33, 0.24);
+}
+
+input:focus,
+select:focus {
+  border-color: rgba(244, 104, 33, 0.46);
+  box-shadow: 0 0 0 4px rgba(244, 104, 33, 0.08);
+}
+
+/* Better pills */
+.pill-row span {
+  border: 1px solid rgba(255, 176, 0, 0.18);
+}
+
+/* Better proof thumbnails */
+.proof-thumb {
+  position: relative;
+  overflow: hidden;
+}
+
+.proof-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.2) 45%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.55s ease;
+}
+
+.proof-card:hover .proof-thumb::after {
+  transform: translateX(100%);
+}
+
+/* Better match score */
+.match-score {
+  box-shadow: 0 18px 36px rgba(244, 104, 33, 0.22);
+}
+
+/* Better chat */
+.chat-box,
+.ai-box {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.82)),
+    #fff;
+}
+
+.chat-message {
+  box-shadow: 0 8px 22px rgba(16, 32, 24, 0.06);
+}
+
+/* Better certificate */
+.certificate-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.certificate-card::before {
+  content: "UBWENGE Buzima";
+  position: absolute;
+  inset: auto auto 18px 24px;
+  color: rgba(16, 32, 24, 0.12);
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 950;
+  letter-spacing: -0.08em;
+}
+
+/* Better admin table */
+.admin-table {
+  box-shadow: 0 24px 70px rgba(16, 32, 24, 0.08);
+}
+
+.admin-table span:hover {
+  background: rgba(255, 176, 0, 0.08);
+}
+
+/* Loading/skeleton utilities for future use */
+.skeleton {
+  min-height: 16px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(16, 32, 24, 0.08),
+      rgba(255, 255, 255, 0.7),
+      rgba(16, 32, 24, 0.08)
+    );
+  background-size: 220% 100%;
+  animation: ubwengeSkeleton 1.2s linear infinite;
+}
+
+@keyframes ubwengeSkeleton {
+  from {
+    background-position: 220% 0;
+  }
+
+  to {
+    background-position: -220% 0;
+  }
+}
+
+/* Badge utilities for future phases */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(120, 214, 75, 0.14);
+  color: #276b1b;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.status-badge.warning {
+  background: rgba(255, 176, 0, 0.16);
+  color: #7a5200;
+}
+
+.status-badge.danger {
+  background: rgba(244, 50, 86, 0.12);
+  color: #a81732;
+}
+
+.status-badge.info {
+  background: rgba(41, 190, 253, 0.14);
+  color: #075f82;
+}
+
+/* Bigger desktop polish */
+@media (min-width: 1320px) {
+  .main-area {
+    padding: 28px 34px;
+  }
+
+  .panel,
+  .hero-card,
+  .profile-header {
+    padding: 30px;
+  }
+
+  .screen-grid {
+    gap: 22px;
+  }
+}
+
+/* Tablet polish */
+@media (max-width: 1100px) {
+  .sub-nav {
+    top: 84px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 12px;
+  }
+
+  .sub-nav::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .topbar {
+    padding-top: 10px;
+  }
+
+  .sidebar {
+    box-shadow: 30px 0 80px rgba(16, 32, 24, 0.22);
+  }
+}
+
+/* Mobile app feel */
+@media (max-width: 720px) {
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(255, 176, 0, 0.2), transparent 320px),
+      #f6f1e7;
+  }
+
+  .main-area {
+    padding: 12px;
+  }
+
+  .topbar {
+    padding: 10px 0 14px;
+    gap: 12px;
+  }
+
+  .topbar h1 {
+    font-size: 1.55rem;
+  }
+
+  .breadcrumb {
+    font-size: 0.78rem;
+  }
+
+  .sub-nav {
+    top: 118px;
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .sub-nav a {
+    padding: 9px 12px;
+    font-size: 0.88rem;
+  }
+
+  .panel,
+  .hero-card,
+  .profile-header,
+  .result-box,
+  .action-card,
+  .small-card,
+  .data-card,
+  .market-card,
+  .stat-card,
+  .notification-card,
+  .toggle-card,
+  .feed-card,
+  .review-card,
+  .match-card-phase4,
+  .task-card,
+  .kanban-column,
+  .score-row,
+  .phase5-card,
+  .step-card,
+  .certificate-card,
+  .danger-panel {
+    border-radius: 20px;
+  }
+
+  h2 {
+    font-size: clamp(1.55rem, 9vw, 2.4rem);
+    letter-spacing: -0.045em;
+  }
+
+  h3 {
+    font-size: 1.05rem;
+  }
+
+  .panel-header p,
+  .hero-card p,
+  .result-box p,
+  .action-card p,
+  .small-card p,
+  .data-card p,
+  .market-card p,
+  .notification-card p,
+  .feed-card p,
+  .match-card-phase4 p,
+  .task-card p,
+  .review-card p,
+  .phase5-card p,
+  .step-card p {
+    font-size: 0.95rem;
+  }
+
+  .primary-button,
+  .secondary-button,
+  .primary-small,
+  .search-button {
+    min-height: 44px;
+  }
+
+  .stats-grid {
+    gap: 10px;
+  }
+
+  .stat-card strong {
+    font-size: 1.65rem;
+  }
+
+  .pill-row {
+    gap: 7px;
+  }
+
+  .pill-row span {
+    font-size: 0.78rem;
+    padding: 7px 9px;
+  }
+
+  .avatar.large {
+    width: 72px;
+    height: 72px;
+    border-radius: 22px;
+  }
+
+  .message-layout {
+    gap: 12px;
+  }
+
+  .chat-box,
+  .ai-box {
+    min-height: 280px;
+  }
+
+  .chat-input {
+    flex-direction: column;
+  }
+
+  .chat-input .primary-small {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .kanban {
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 420px) {
+  .brand-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+  }
+
+  .brand-button strong {
+    font-size: 0.92rem;
+  }
+
+  .brand-button small {
+    font-size: 0.76rem;
+  }
+
+  .sidebar {
+    width: min(292px, 88vw);
+  }
+
+  .hero-card {
+    min-height: auto;
+  }
+
+  .topbar-actions {
+    gap: 8px;
+  }
+
+  .search-button,
+  .primary-small {
+    padding-inline: 12px;
+  }
+
+  .form-grid {
+    gap: 10px;
+  }
+
+  input,
+  select {
+    min-height: 46px;
+    border-radius: 14px;
+  }
+
+  .admin-table strong,
+  .admin-table span {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+}
