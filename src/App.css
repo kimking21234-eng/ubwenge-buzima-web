@@ -840,3 +840,152 @@ select {
     max-width: 92%;
   }
 }
+
+
+.feed-list,
+.review-grid,
+.kanban,
+.match-breakdown {
+  display: grid;
+  gap: 14px;
+}
+
+.feed-card,
+.review-card,
+.match-card-phase4,
+.task-card,
+.kanban-column,
+.score-row {
+  border: 1px solid rgba(16, 32, 24, 0.08);
+  border-radius: 24px;
+  background: #fff;
+  padding: 18px;
+}
+
+.feed-card,
+.match-card-phase4,
+.score-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.feed-card p,
+.match-card-phase4 p,
+.match-card-phase4 small,
+.task-card p,
+.review-card p,
+.score-row span {
+  color: #5d6c63;
+  line-height: 1.65;
+}
+
+.match-card-phase4 small {
+  display: block;
+  margin-top: 6px;
+}
+
+.match-score {
+  width: 82px;
+  height: 82px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #ffb000, #f46821);
+  color: #111;
+}
+
+.match-score strong {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.match-score span {
+  margin-top: -18px;
+  color: #111;
+  font-weight: 900;
+}
+
+.review-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.review-card > span {
+  display: inline-flex;
+  margin-top: 12px;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: rgba(255, 176, 0, 0.16);
+  color: #102018;
+  font-weight: 900;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 14px;
+  color: #ffb000;
+}
+
+.kanban {
+  grid-template-columns: repeat(5, 1fr);
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.kanban-column {
+  min-width: 220px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.kanban-column h3 {
+  margin-bottom: 14px;
+}
+
+.task-card {
+  margin-bottom: 10px;
+  box-shadow: none;
+}
+
+.score-row {
+  align-items: stretch;
+}
+
+.score-row > div {
+  width: 220px;
+  flex: 0 0 auto;
+}
+
+.score-row strong,
+.score-row span {
+  display: block;
+}
+
+.score-row .progress-track {
+  flex: 1;
+  align-self: center;
+}
+
+@media (max-width: 960px) {
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feed-card,
+  .match-card-phase4,
+  .score-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .score-row > div {
+    width: 100%;
+  }
+
+  .score-row .progress-track {
+    width: 100%;
+  }
+}
