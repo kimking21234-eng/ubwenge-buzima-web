@@ -327,7 +327,13 @@ h3 {
 .small-card p,
 .data-card p,
 .market-card p,
-.notification-card p {
+.notification-card p,
+.feed-card p,
+.match-card-phase4 p,
+.match-card-phase4 small,
+.task-card p,
+.review-card p,
+.score-row span {
   color: #5d6c63;
   line-height: 1.7;
 }
@@ -380,7 +386,13 @@ h3 {
 .market-card,
 .stat-card,
 .notification-card,
-.toggle-card {
+.toggle-card,
+.feed-card,
+.review-card,
+.match-card-phase4,
+.task-card,
+.kanban-column,
+.score-row {
   border: 1px solid rgba(16, 32, 24, 0.08);
   border-radius: 24px;
   background: #fff;
@@ -528,9 +540,12 @@ h3 {
   color: #78d64b;
 }
 
-.card-list {
+.card-list,
+.feed-list,
+.match-breakdown,
+.kanban {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .form-grid {
@@ -557,7 +572,19 @@ select {
 
 .data-card,
 .notification-card,
-.toggle-card {
+.toggle-card,
+feed-card,
+.match-card-phase4,
+.score-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.feed-card,
+.match-card-phase4,
+.score-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -573,7 +600,7 @@ select {
   background: #fff;
   border-radius: 999px;
   padding: 10px 13px;
-  color: #33443a;
+    color: #33443a;
   font-weight: 850;
   display: inline-flex;
   gap: 7px;
@@ -722,6 +749,129 @@ select {
   transform: translateX(22px);
 }
 
+.feed-list {
+  display: grid;
+  gap: 14px;
+}
+
+.feed-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.feed-card h3 {
+  margin-bottom: 6px;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.review-card > span {
+  display: inline-flex;
+  margin-top: 12px;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: rgba(255, 176, 0, 0.16);
+  color: #102018;
+  font-weight: 900;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 14px;
+  color: #ffb000;
+}
+
+.match-card-phase4 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.match-card-phase4 small {
+  display: block;
+  margin-top: 6px;
+}
+
+.match-score {
+  width: 82px;
+  height: 82px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #ffb000, #f46821);
+  color: #111;
+}
+
+.match-score strong {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.match-score span {
+  margin-top: -18px;
+  color: #111;
+  font-weight: 900;
+}
+
+.match-breakdown {
+  display: grid;
+  gap: 14px;
+}
+
+.score-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.score-row > div {
+  width: 220px;
+  flex: 0 0 auto;
+}
+
+.score-row strong,
+.score-row span {
+  display: block;
+}
+
+.score-row .progress-track {
+  flex: 1;
+  align-self: center;
+}
+
+.kanban {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.kanban-column {
+  min-width: 220px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.kanban-column h3 {
+  margin-bottom: 14px;
+}
+
+.task-card {
+  margin-bottom: 10px;
+  box-shadow: none;
+}
+
 .overlay {
   display: none;
 }
@@ -781,6 +931,25 @@ select {
   .message-layout {
     grid-template-columns: 1fr;
   }
+
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feed-card,
+  .match-card-phase4,
+  .score-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .score-row > div {
+    width: 100%;
+  }
+
+  .score-row .progress-track {
+    width: 100%;
+  }
 }
 
 @media (max-width: 720px) {
@@ -839,153 +1008,8 @@ select {
   .chat-message {
     max-width: 92%;
   }
-}
 
-
-.feed-list,
-.review-grid,
-.kanban,
-.match-breakdown {
-  display: grid;
-  gap: 14px;
-}
-
-.feed-card,
-.review-card,
-.match-card-phase4,
-.task-card,
-.kanban-column,
-.score-row {
-  border: 1px solid rgba(16, 32, 24, 0.08);
-  border-radius: 24px;
-  background: #fff;
-  padding: 18px;
-}
-
-.feed-card,
-.match-card-phase4,
-.score-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-}
-
-.feed-card p,
-.match-card-phase4 p,
-.match-card-phase4 small,
-.task-card p,
-.review-card p,
-.score-row span {
-  color: #5d6c63;
-  line-height: 1.65;
-}
-
-.match-card-phase4 small {
-  display: block;
-  margin-top: 6px;
-}
-
-.match-score {
-  width: 82px;
-  height: 82px;
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  border-radius: 24px;
-  background: linear-gradient(135deg, #ffb000, #f46821);
-  color: #111;
-}
-
-.match-score strong {
-  font-size: 2rem;
-  line-height: 1;
-}
-
-.match-score span {
-  margin-top: -18px;
-  color: #111;
-  font-weight: 900;
-}
-
-.review-grid {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.review-card > span {
-  display: inline-flex;
-  margin-top: 12px;
-  padding: 8px 11px;
-  border-radius: 999px;
-  background: rgba(255, 176, 0, 0.16);
-  color: #102018;
-  font-weight: 900;
-}
-
-.stars {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 14px;
-  color: #ffb000;
-}
-
-.kanban {
-  grid-template-columns: repeat(5, 1fr);
-  align-items: start;
-  overflow-x: auto;
-  padding-bottom: 6px;
-}
-
-.kanban-column {
-  min-width: 220px;
-  background: rgba(255, 255, 255, 0.72);
-}
-
-.kanban-column h3 {
-  margin-bottom: 14px;
-}
-
-.task-card {
-  margin-bottom: 10px;
-  box-shadow: none;
-}
-
-.score-row {
-  align-items: stretch;
-}
-
-.score-row > div {
-  width: 220px;
-  flex: 0 0 auto;
-}
-
-.score-row strong,
-.score-row span {
-  display: block;
-}
-
-.score-row .progress-track {
-  flex: 1;
-  align-self: center;
-}
-
-@media (max-width: 960px) {
-  .review-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .feed-card,
-  .match-card-phase4,
-  .score-row {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .score-row > div {
-    width: 100%;
-  }
-
-  .score-row .progress-track {
-    width: 100%;
+  .kanban {
+    grid-template-columns: repeat(5, minmax(220px, 1fr));
   }
 }
