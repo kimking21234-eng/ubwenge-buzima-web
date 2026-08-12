@@ -123,25 +123,23 @@ a {
   margin-top: 26px;
 }
 
-.side-nav button {
+.side-nav a {
   display: flex;
   align-items: center;
   gap: 11px;
   width: 100%;
-  border: 0;
   border-radius: 16px;
   padding: 12px 13px;
-  background: transparent;
   color: #425247;
   font-weight: 820;
   text-align: left;
 }
 
-.side-nav button:hover {
+.side-nav a:hover {
   background: rgba(16, 32, 24, 0.06);
 }
 
-.side-nav button.active {
+.side-nav a.active {
   background: #102018;
   color: #fff;
   box-shadow: 0 14px 28px rgba(16, 32, 24, 0.16);
@@ -196,6 +194,7 @@ a {
 
 .topbar h1 {
   margin: 0;
+  text-transform: capitalize;
   font-size: clamp(1.65rem, 3vw, 2.55rem);
   line-height: 1;
   letter-spacing: -0.05em;
@@ -228,6 +227,27 @@ a {
   border: 0;
   color: #fff;
   background: #102018;
+}
+
+.sub-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.sub-nav a {
+  border: 1px solid rgba(16, 32, 24, 0.1);
+  background: rgba(255, 255, 255, 0.76);
+  color: #33443a;
+  border-radius: 999px;
+  padding: 10px 13px;
+  font-weight: 850;
+}
+
+.sub-nav a.active {
+  background: #102018;
+  color: #fff;
 }
 
 .screen-grid {
@@ -305,7 +325,9 @@ h3 {
 .result-box p,
 .action-card p,
 .small-card p,
-.data-card p {
+.data-card p,
+.market-card p,
+.notification-card p {
   color: #5d6c63;
   line-height: 1.7;
 }
@@ -356,7 +378,9 @@ h3 {
 .small-card,
 .data-card,
 .market-card,
-.stat-card {
+.stat-card,
+.notification-card,
+.toggle-card {
   border: 1px solid rgba(16, 32, 24, 0.08);
   border-radius: 24px;
   background: #fff;
@@ -395,7 +419,8 @@ h3 {
 
 .three-grid,
 .path-grid,
-.profile-grid {
+.profile-grid,
+.proof-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
@@ -530,31 +555,45 @@ select {
   margin-top: 18px;
 }
 
-.data-card {
+.data-card,
+.notification-card,
+.toggle-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
 }
 
-.filter-row,
-.notification-tabs {
+.filter-row {
   margin-bottom: 18px;
 }
 
-.filter-row button,
-.notification-tabs button {
+.filter-row button {
   border: 1px solid rgba(16, 32, 24, 0.1);
   background: #fff;
   border-radius: 999px;
   padding: 10px 13px;
   color: #33443a;
   font-weight: 850;
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
 }
 
-.market-card {
+.proof-card {
+  overflow: hidden;
+}
+
+.proof-thumb {
+  min-height: 130px;
   display: grid;
-  gap: 12px;
+  place-items: center;
+  border-radius: 18px;
+  margin-bottom: 14px;
+  background:
+    linear-gradient(135deg, rgba(16, 32, 24, 0.92), rgba(244, 104, 33, 0.72)),
+    #102018;
+  color: #fff;
 }
 
 .message-layout {
@@ -568,7 +607,7 @@ select {
   gap: 10px;
 }
 
-.inbox button {
+.inbox a {
   border: 1px solid rgba(16, 32, 24, 0.08);
   border-radius: 18px;
   background: #fff;
@@ -631,6 +670,58 @@ select {
   flex: 1;
 }
 
+.empty-state {
+  min-height: 260px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border-radius: 24px;
+  background: #fff;
+  border: 1px solid rgba(16, 32, 24, 0.08);
+  padding: 26px;
+}
+
+.empty-state svg {
+  color: #f46821;
+}
+
+.notification-card > span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #ffb000;
+  color: #111;
+  font-weight: 900;
+  font-size: 0.82rem;
+}
+
+.toggle {
+  position: relative;
+  width: 54px;
+  height: 32px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(16, 32, 24, 0.14);
+  padding: 4px;
+}
+
+.toggle span {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #fff;
+  transition: transform 0.2s ease;
+}
+
+.toggle.on {
+  background: #102018;
+}
+
+.toggle.on span {
+  transform: translateX(22px);
+}
+
 .overlay {
   display: none;
 }
@@ -682,7 +773,8 @@ select {
   .stats-grid,
   .three-grid,
   .path-grid,
-  .profile-grid {
+  .profile-grid,
+  .proof-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -725,12 +817,15 @@ select {
   .three-grid,
   .path-grid,
   .profile-grid,
+  .proof-grid,
   .form-grid {
     grid-template-columns: 1fr;
   }
 
   .data-card,
-  .profile-header {
+  .profile-header,
+  .notification-card,
+  .toggle-card {
     align-items: flex-start;
     flex-direction: column;
   }
