@@ -22,6 +22,7 @@ import {
   GraduationCap,
   Home,
   LayoutDashboard,
+  Lock,
   Menu,
   MessageCircle,
   PlayCircle,
@@ -33,6 +34,7 @@ import {
   Star,
   Store,
   Target,
+  Trash2,
   User,
   Users,
   X,
@@ -56,6 +58,7 @@ const mainNav = [
   { to: '/trust-score', label: 'Trust Score', icon: ShieldCheck },
   { to: '/tasks', label: 'Tasks', icon: CheckCircle2 },
   { to: '/learning', label: 'Learning', icon: GraduationCap },
+  { to: '/zero-capital', label: 'Zero-Capital', icon: Zap },
   { to: '/ai-assistant', label: 'AI Assistant', icon: Bot },
   { to: '/admin', label: 'Admin', icon: LayoutDashboard },
   { to: '/settings', label: 'Settings', icon: Settings },
@@ -140,6 +143,56 @@ const taskSubNav = [
   { to: '/tasks/disputed', label: 'Disputed' },
 ]
 
+const learningSubNav = [
+  { to: '/learning', label: 'Learning Home' },
+  { to: '/learning/paths', label: 'Paths' },
+  { to: '/learning/whatsapp-business', label: 'WhatsApp Business' },
+  { to: '/learning/proof-video-helper', label: 'Proof Video Helper' },
+  { to: '/learning/tasks', label: 'Practice Tasks' },
+  { to: '/learning/certificate', label: 'Certificate' },
+]
+
+const zeroCapitalSubNav = [
+  { to: '/zero-capital', label: 'Home' },
+  { to: '/zero-capital/assessment', label: 'Assessment' },
+  { to: '/zero-capital/recommended', label: 'Recommended Path' },
+  { to: '/zero-capital/proof-video-helper', label: 'Proof Video Helper' },
+  { to: '/zero-capital/local-connector', label: 'Local Connector' },
+  { to: '/zero-capital/whatsapp-business-helper', label: 'WhatsApp Helper' },
+]
+
+const aiSubNav = [
+  { to: '/ai-assistant', label: 'AI Home' },
+  { to: '/ai-assistant/find-my-skill', label: 'Find My Skill' },
+  { to: '/ai-assistant/generate-bio', label: 'Generate Bio' },
+  { to: '/ai-assistant/generate-offer', label: 'Generate Offer' },
+  { to: '/ai-assistant/video-script', label: 'Video Script' },
+  { to: '/ai-assistant/message-template', label: 'Message Template' },
+  { to: '/ai-assistant/pricing-helper', label: 'Pricing Helper' },
+]
+
+const adminSubNav = [
+  { to: '/admin', label: 'Dashboard' },
+  { to: '/admin/users', label: 'Users' },
+  { to: '/admin/profiles', label: 'Profiles' },
+  { to: '/admin/proof-videos', label: 'Proof Videos' },
+  { to: '/admin/needs', label: 'Needs' },
+  { to: '/admin/offers', label: 'Offers' },
+  { to: '/admin/matches', label: 'Matches' },
+  { to: '/admin/reports', label: 'Reports' },
+  { to: '/admin/revenue', label: 'Revenue' },
+  { to: '/admin/platform-health', label: 'Platform Health' },
+]
+
+const settingsSubNav = [
+  { to: '/settings', label: 'Account' },
+  { to: '/settings/security', label: 'Security' },
+  { to: '/settings/privacy', label: 'Privacy' },
+  { to: '/settings/notifications', label: 'Notifications' },
+  { to: '/settings/language', label: 'Language' },
+  { to: '/settings/delete-account', label: 'Delete Account' },
+]
+
 const paths = [
   'Ndashaka akazi',
   'Ndashaka clients',
@@ -153,171 +206,45 @@ const paths = [
 ]
 
 const profiles = [
-  {
-    name: 'Aline Mukamana',
-    initials: 'AM',
-    role: 'Short Video Creator',
-    location: 'Kigali',
-    trust: 78,
-    proofs: 3,
-    rating: 4.8,
-    price: '10,000 - 50,000 RWF',
-    status: 'Available this week',
-  },
-  {
-    name: 'Eric Niyonzima',
-    initials: 'EN',
-    role: 'Welding Specialist',
-    location: 'Huye',
-    trust: 84,
-    proofs: 5,
-    rating: 4.9,
-    price: 'Project based',
-    status: 'Available weekends',
-  },
-  {
-    name: 'Claudine Uwase',
-    initials: 'CU',
-    role: 'WhatsApp Business Helper',
-    location: 'Musanze',
-    trust: 69,
-    proofs: 2,
-    rating: 4.6,
-    price: '5,000 - 25,000 RWF',
-    status: 'Available online',
-  },
+  { name: 'Aline Mukamana', initials: 'AM', role: 'Short Video Creator', location: 'Kigali', trust: 78, proofs: 3, rating: 4.8 },
+  { name: 'Eric Niyonzima', initials: 'EN', role: 'Welding Specialist', location: 'Huye', trust: 84, proofs: 5, rating: 4.9 },
+  { name: 'Claudine Uwase', initials: 'CU', role: 'WhatsApp Business Helper', location: 'Musanze', trust: 69, proofs: 2, rating: 4.6 },
 ]
 
 const proofs = [
-  {
-    title: 'Restaurant short video sample',
-    source: 'TikTok',
-    type: 'Skill demonstration',
-    score: 86,
-    status: 'Approved',
-    service: 'Short videos',
-  },
-  {
-    title: 'Salon before/after promo',
-    source: 'Instagram',
-    type: 'Before/after',
-    score: 74,
-    status: 'Pending',
-    service: 'Social media content',
-  },
-  {
-    title: 'Client testimonial for welding',
-    source: 'YouTube',
-    type: 'Client testimonial',
-    score: 91,
-    status: 'Verified',
-    service: 'Welding',
-  },
+  { title: 'Restaurant short video sample', source: 'TikTok', type: 'Skill demonstration', score: 86, status: 'Approved', service: 'Short videos' },
+  { title: 'Salon before/after promo', source: 'Instagram', type: 'Before/after', score: 74, status: 'Pending', service: 'Social media content' },
+  { title: 'Client testimonial for welding', source: 'YouTube', type: 'Client testimonial', score: 91, status: 'Verified', service: 'Welding' },
 ]
 
 const needs = [
-  {
-    title: 'Nkeneye umuntu ukora videos za restaurant',
-    category: 'Digital services',
-    location: 'Kigali',
-    budget: '50,000 RWF',
-    urgency: 'Within 1 week',
-  },
-  {
-    title: 'Nkeneye cleaning ya office',
-    category: 'Cleaning',
-    location: 'Kicukiro',
-    budget: '30,000 RWF',
-    urgency: 'Tomorrow',
-  },
-  {
-    title: 'Nkeneye tutor wa English',
-    category: 'Tutoring',
-    location: 'Remera',
-    budget: '80,000 RWF/month',
-    urgency: 'This week',
-  },
+  { title: 'Nkeneye umuntu ukora videos za restaurant', category: 'Digital services', location: 'Kigali', budget: '50,000 RWF', urgency: 'Within 1 week' },
+  { title: 'Nkeneye cleaning ya office', category: 'Cleaning', location: 'Kicukiro', budget: '30,000 RWF', urgency: 'Tomorrow' },
+  { title: 'Nkeneye tutor wa English', category: 'Tutoring', location: 'Remera', budget: '80,000 RWF/month', urgency: 'This week' },
 ]
 
 const offers = [
-  {
-    title: 'Nkora short videos za business nto',
-    category: 'Digital services',
-    location: 'Kigali',
-    price: '10,000 - 50,000 RWF',
-    proof: '3 videos',
-  },
-  {
-    title: 'WhatsApp Business setup helper',
-    category: 'Small business support',
-    location: 'Online / Kigali',
-    price: '5,000 - 30,000 RWF',
-    proof: '2 demos',
-  },
-  {
-    title: 'Welding ya gates, windows na doors',
-    category: 'Welding',
-    location: 'Huye',
-    price: 'Project based',
-    proof: '5 samples',
-  },
+  { title: 'Nkora short videos za business nto', category: 'Digital services', location: 'Kigali', price: '10,000 - 50,000 RWF', proof: '3 videos' },
+  { title: 'WhatsApp Business setup helper', category: 'Small business support', location: 'Online / Kigali', price: '5,000 - 30,000 RWF', proof: '2 demos' },
+  { title: 'Welding ya gates, windows na doors', category: 'Welding', location: 'Huye', price: 'Project based', proof: '5 samples' },
 ]
 
 const matches = [
-  {
-    title: 'Restaurant Kigali ↔ Aline Mukamana',
-    score: 92,
-    type: 'Need to provider',
-    reason: 'Category, location, proof video, availability and budget match.',
-  },
-  {
-    title: 'Shop owner ↔ WhatsApp Business Helper',
-    score: 86,
-    type: 'Business support',
-    reason: 'Service matches need, online delivery available, price is within budget.',
-  },
-  {
-    title: 'Huye construction client ↔ Eric Welding',
-    score: 89,
-    type: 'Local service',
-    reason: 'Location and welding proof videos match the client need.',
-  },
+  { title: 'Restaurant Kigali ↔ Aline Mukamana', score: 92, type: 'Need to provider', reason: 'Category, location, proof video, availability and budget match.' },
+  { title: 'Shop owner ↔ WhatsApp Business Helper', score: 86, type: 'Business support', reason: 'Service matches need, online delivery available, price is within budget.' },
+  { title: 'Huye construction client ↔ Eric Welding', score: 89, type: 'Local service', reason: 'Location and welding proof videos match the client need.' },
 ]
 
 const feedItems = [
-  {
-    title: 'Restaurant i Kigali irashaka umuntu ukora short videos',
-    meta: 'Budget: 50,000 RWF • Proof required • Within 1 week',
-    action: 'Apply',
-  },
-  {
-    title: 'Ufite phone gusa? Tangira nka Proof Video Helper',
-    meta: 'Step 1: Shaka artisan 1 • Step 2: Mufashe gukora video',
-    action: 'Start path',
-  },
-  {
-    title: 'Shop owner arashaka WhatsApp Business catalog',
-    meta: 'Small business support • Online • 20,000 RWF',
-    action: 'Offer help',
-  },
+  { title: 'Restaurant i Kigali irashaka umuntu ukora short videos', meta: 'Budget: 50,000 RWF • Proof required • Within 1 week', action: 'Apply' },
+  { title: 'Ufite phone gusa? Tangira nka Proof Video Helper', meta: 'Step 1: Shaka artisan 1 • Step 2: Mufashe gukora video', action: 'Start path' },
+  { title: 'Shop owner arashaka WhatsApp Business catalog', meta: 'Small business support • Online • 20,000 RWF', action: 'Offer help' },
 ]
 
 const reviews = [
-  {
-    from: 'Restaurant Kigali',
-    rating: 5,
-    comment: 'Aline yakoze videos nziza kandi azitanga ku gihe.',
-  },
-  {
-    from: 'Salon Client',
-    rating: 4.8,
-    comment: 'Proof video ye ni yo yatumye tumwizera mbere yo kumwandikira.',
-  },
-  {
-    from: 'Shop Owner',
-    rating: 5,
-    comment: 'Yadufashije gushyira products kuri WhatsApp Business neza.',
-  },
+  { from: 'Restaurant Kigali', rating: 5, comment: 'Aline yakoze videos nziza kandi azitanga ku gihe.' },
+  { from: 'Salon Client', rating: 4.8, comment: 'Proof video ye ni yo yatumye tumwizera mbere yo kumwandikira.' },
+  { from: 'Shop Owner', rating: 5, comment: 'Yadufashije gushyira products kuri WhatsApp Business neza.' },
 ]
 
 const notifications = [
@@ -329,36 +256,28 @@ const notifications = [
 ]
 
 const tasks = [
-  {
-    title: 'Create 5 short videos for restaurant',
-    status: 'In progress',
-    client: 'Restaurant Kigali',
-    budget: '50,000 RWF',
-  },
-  {
-    title: 'Setup WhatsApp Business catalog',
-    status: 'Requested',
-    client: 'Shop Owner',
-    budget: '20,000 RWF',
-  },
-  {
-    title: 'Review project details',
-    status: 'Accepted',
-    client: 'Aline Mukamana',
-    budget: 'Pending',
-  },
-  {
-    title: 'Welding gate repair',
-    status: 'Completed',
-    client: 'Huye Client',
-    budget: 'Project based',
-  },
-  {
-    title: 'Late delivery discussion',
-    status: 'Disputed',
-    client: 'Salon Client',
-    budget: '30,000 RWF',
-  },
+  { title: 'Create 5 short videos for restaurant', status: 'In progress', client: 'Restaurant Kigali', budget: '50,000 RWF' },
+  { title: 'Setup WhatsApp Business catalog', status: 'Requested', client: 'Shop Owner', budget: '20,000 RWF' },
+  { title: 'Review project details', status: 'Accepted', client: 'Aline Mukamana', budget: 'Pending' },
+  { title: 'Welding gate repair', status: 'Completed', client: 'Huye Client', budget: 'Project based' },
+  { title: 'Late delivery discussion', status: 'Disputed', client: 'Salon Client', budget: '30,000 RWF' },
+]
+
+const learningPaths = [
+  { title: 'WhatsApp Business Setup Helper', lessons: 4, demand: 'High demand', result: 'Help shops create online catalog' },
+  { title: 'Proof Video Helper', lessons: 5, demand: 'High demand', result: 'Help artisans show real work' },
+  { title: 'Local Opportunity Connector', lessons: 3, demand: 'Growing demand', result: 'Connect needs with providers' },
+]
+
+const adminStats = [
+  { value: '128', label: 'Users' },
+  { value: '74', label: 'Profiles' },
+  { value: '213', label: 'Proof Videos' },
+  { value: '46', label: 'Needs' },
+  { value: '59', label: 'Offers' },
+  { value: '301', label: 'Matches' },
+  { value: '12', label: 'Reports' },
+  { value: '0 RWF', label: 'Revenue MVP' },
 ]
 
 function App() {
@@ -415,8 +334,8 @@ function Shell() {
 
         <div className="sidebar-card">
           <Sparkles size={18} />
-          <strong>Phase 4</strong>
-          <p>Needs, Offers, Matching, Reviews, Trust Score, Opportunity Feed na Task Workflow.</p>
+          <strong>Phase 5</strong>
+          <p>Learning, Zero-Capital, AI Assistant, Admin Dashboard na Settings expansion.</p>
         </div>
       </aside>
 
@@ -427,7 +346,7 @@ function Shell() {
           </button>
 
           <div>
-            <p className="breadcrumb">UBWENGE Buzima / Phase 4</p>
+            <p className="breadcrumb">UBWENGE Buzima / Phase 5</p>
             <h1>{pageTitle}</h1>
           </div>
 
@@ -452,7 +371,7 @@ function Shell() {
             <Route path="public" element={<PublicProfileScreen />} />
             <Route path="edit" element={<EditProfileScreen />} />
             <Route path="proof" element={<ProfileProofScreen />} />
-            <Route path="reviews" element={<ProfileReviewsScreen />} />
+            <Route path="reviews" element={<ReviewsScreen />} />
             <Route path="analytics" element={<ProfileAnalyticsScreen />} />
           </Route>
 
@@ -460,51 +379,51 @@ function Shell() {
             <Route index element={<ProofHomeScreen />} />
             <Route path="add" element={<AddProofScreen />} />
             <Route path="score" element={<ProofScoreScreen />} />
-            <Route path="verification" element={<ProofVerificationScreen />} />
+            <Route path="verification" element={<ProofHomeScreen />} />
             <Route path="tips" element={<ProofTipsScreen />} />
           </Route>
 
           <Route path="/needs" element={<ModuleLayout nav={needsSubNav} />}>
             <Route index element={<NeedsHomeScreen />} />
             <Route path="post" element={<PostNeedScreen />} />
-            <Route path="matches" element={<NeedMatchesScreen />} />
-            <Route path="applications" element={<NeedApplicationsScreen />} />
-            <Route path="closed" element={<ClosedNeedsScreen />} />
+            <Route path="matches" element={<MatchListScreen />} />
+            <Route path="applications" element={<SimpleList title="Applications" items={['Aline applied to restaurant videos', 'Claudine applied to WhatsApp setup']} />} />
+            <Route path="closed" element={<SimpleList title="Closed Needs" items={['Restaurant videos completed', 'Office cleaning completed']} />} />
           </Route>
 
           <Route path="/offers" element={<ModuleLayout nav={offersSubNav} />}>
             <Route index element={<OffersHomeScreen />} />
             <Route path="create" element={<CreateOfferScreen />} />
-            <Route path="requests" element={<OfferRequestsScreen />} />
-            <Route path="analytics" element={<OfferAnalyticsScreen />} />
-            <Route path="featured" element={<FeaturedOffersScreen />} />
+            <Route path="requests" element={<SimpleList title="Offer Requests" items={['Restaurant requested short videos', 'Shop requested WhatsApp setup']} />} />
+            <Route path="analytics" element={<StatsScreen title="Offer Analytics" />} />
+            <Route path="featured" element={<OffersHomeScreen />} />
           </Route>
 
           <Route path="/marketplace" element={<ModuleLayout nav={marketplaceSubNav} />}>
             <Route index element={<MarketplaceExploreScreen />} />
-            <Route path="services" element={<MarketplaceServicesScreen />} />
-            <Route path="jobs" element={<MarketplaceJobsScreen />} />
-            <Route path="people" element={<MarketplacePeopleScreen />} />
-            <Route path="needs" element={<MarketplaceNeedsScreen />} />
-            <Route path="offers" element={<MarketplaceOffersScreen />} />
-            <Route path="saved" element={<MarketplaceSavedScreen />} />
+            <Route path="services" element={<OffersHomeScreen />} />
+            <Route path="jobs" element={<NeedsHomeScreen />} />
+            <Route path="people" element={<PeopleScreen />} />
+            <Route path="needs" element={<NeedsHomeScreen />} />
+            <Route path="offers" element={<OffersHomeScreen />} />
+            <Route path="saved" element={<SimpleList title="Saved Items" items={['Aline profile', 'Restaurant need', 'Proof video sample']} />} />
           </Route>
 
           <Route path="/matching" element={<ModuleLayout nav={matchingSubNav} />}>
-            <Route index element={<MatchingHomeScreen />} />
-            <Route path="people" element={<MatchingPeopleScreen />} />
-            <Route path="jobs" element={<MatchingJobsScreen />} />
-            <Route path="services" element={<MatchingServicesScreen />} />
+            <Route index element={<MatchListScreen />} />
+            <Route path="people" element={<PeopleScreen />} />
+            <Route path="jobs" element={<NeedsHomeScreen />} />
+            <Route path="services" element={<OffersHomeScreen />} />
             <Route path="reasons" element={<MatchReasonsScreen />} />
-            <Route path="improve" element={<ImproveMatchesScreen />} />
+            <Route path="improve" element={<ChecklistScreen title="Improve Matches" />} />
           </Route>
 
           <Route path="/messages" element={<ModuleLayout nav={messageSubNav} />}>
             <Route index element={<MessagesInboxScreen />} />
             <Route path="chat" element={<ChatScreen />} />
-            <Route path="requests" element={<MessageRequestsScreen />} />
+            <Route path="requests" element={<SimpleList title="Message Requests" items={['Restaurant Kigali wants videos', 'Shop owner wants WhatsApp setup']} />} />
             <Route path="templates" element={<MessageTemplatesScreen />} />
-            <Route path="archived" element={<ArchivedMessagesScreen />} />
+            <Route path="archived" element={<EmptyScreen title="No archived chats yet" icon={FileText} />} />
           </Route>
 
           <Route path="/notifications" element={<ModuleLayout nav={notificationSubNav} />}>
@@ -514,7 +433,7 @@ function Shell() {
             <Route path="messages" element={<NotificationsListScreen filter="messages" />} />
             <Route path="reviews" element={<NotificationsListScreen filter="reviews" />} />
             <Route path="trust" element={<NotificationsListScreen filter="trust" />} />
-            <Route path="settings" element={<NotificationPreferencesScreen />} />
+            <Route path="settings" element={<SettingsCards title="Notification Preferences" type="notifications" />} />
           </Route>
 
           <Route path="/feed" element={<OpportunityFeedScreen />} />
@@ -530,10 +449,56 @@ function Shell() {
             <Route path="disputed" element={<TasksByStatusScreen status="Disputed" />} />
           </Route>
 
-          <Route path="/learning" element={<LearningScreen />} />
-          <Route path="/ai-assistant" element={<AiAssistantScreen />} />
-          <Route path="/admin" element={<AdminScreen />} />
-          <Route path="/settings" element={<SettingsScreen />} />
+          <Route path="/learning" element={<ModuleLayout nav={learningSubNav} />}>
+            <Route index element={<LearningHomeScreen />} />
+            <Route path="paths" element={<LearningPathsScreen />} />
+            <Route path="whatsapp-business" element={<LearningDetailScreen title="WhatsApp Business Setup Helper" />} />
+            <Route path="proof-video-helper" element={<LearningDetailScreen title="Proof Video Helper" />} />
+            <Route path="tasks" element={<LearningTasksScreen />} />
+            <Route path="certificate" element={<CertificateScreen />} />
+          </Route>
+
+          <Route path="/zero-capital" element={<ModuleLayout nav={zeroCapitalSubNav} />}>
+            <Route index element={<ZeroCapitalHomeScreen />} />
+            <Route path="assessment" element={<ZeroCapitalAssessmentScreen />} />
+            <Route path="recommended" element={<RecommendedZeroCapitalScreen />} />
+            <Route path="proof-video-helper" element={<ZeroCapitalPathScreen title="Proof Video Helper" />} />
+            <Route path="local-connector" element={<ZeroCapitalPathScreen title="Local Opportunity Connector" />} />
+            <Route path="whatsapp-business-helper" element={<ZeroCapitalPathScreen title="WhatsApp Business Helper" />} />
+          </Route>
+
+          <Route path="/ai-assistant" element={<ModuleLayout nav={aiSubNav} />}>
+            <Route index element={<AiAssistantHomeScreen />} />
+            <Route path="find-my-skill" element={<AiToolScreen title="Find My Skill" output="Ushobora gutangira nka Proof Video Helper cyangwa Local Connector." />} />
+            <Route path="generate-bio" element={<AiToolScreen title="Generate Bio" output="Mfasha business nto gukora videos ngufi zigaragaza products zabo kuri social media." />} />
+            <Route path="generate-offer" element={<AiToolScreen title="Generate Offer" output="Nkora short videos za business nto, kuva kuri 10,000 kugeza 50,000 RWF." />} />
+            <Route path="video-script" element={<AiToolScreen title="Video Script" output="Muraho, nitwa [Name]. Nkora [service]. Mfasha abantu [result]." />} />
+            <Route path="message-template" element={<AiToolScreen title="Message Template" output="Muraho [Name], nabonye ko mukeneye [service]. Mfite proof kuri profile yanjye." />} />
+            <Route path="pricing-helper" element={<AiToolScreen title="Pricing Helper" output="Tangira na 10,000 RWF kuri video imwe, package ya 5 videos ibe 50,000 RWF." />} />
+          </Route>
+
+          <Route path="/admin" element={<ModuleLayout nav={adminSubNav} />}>
+            <Route index element={<AdminDashboardScreen />} />
+            <Route path="users" element={<AdminTableScreen title="Users" />} />
+            <Route path="profiles" element={<AdminTableScreen title="Profiles" />} />
+            <Route path="proof-videos" element={<AdminTableScreen title="Proof Videos" />} />
+            <Route path="needs" element={<AdminTableScreen title="Needs" />} />
+            <Route path="offers" element={<AdminTableScreen title="Offers" />} />
+            <Route path="matches" element={<AdminTableScreen title="Matches" />} />
+            <Route path="reports" element={<AdminReportsScreen />} />
+            <Route path="revenue" element={<AdminRevenueScreen />} />
+            <Route path="platform-health" element={<AdminHealthScreen />} />
+          </Route>
+
+          <Route path="/settings" element={<ModuleLayout nav={settingsSubNav} />}>
+            <Route index element={<SettingsCards title="Account Settings" type="account" />} />
+            <Route path="security" element={<SettingsCards title="Security Settings" type="security" />} />
+            <Route path="privacy" element={<SettingsCards title="Privacy Settings" type="privacy" />} />
+            <Route path="notifications" element={<SettingsCards title="Notification Settings" type="notifications" />} />
+            <Route path="language" element={<LanguageSettingsScreen />} />
+            <Route path="delete-account" element={<DeleteAccountScreen />} />
+          </Route>
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </section>
@@ -563,34 +528,33 @@ function HomeScreen() {
     <div className="screen-grid">
       <section className="hero-card wide">
         <div>
-          <span className="eyebrow">Phase 4 Complete Foundation</span>
+          <span className="eyebrow">Phase 5 Complete</span>
           <h2>Erekana icyo ushoboye. Hura n’abagukeneye. Hindura skills zawe amafaranga.</h2>
           <p>
-            UBWENGE Buzima ubu ifite routes za Profiles, Proof Videos, Needs, Offers,
-            Marketplace, Matching, Opportunity Feed, Reviews, Trust Score, Messaging,
-            Notifications na Task Workflow.
+            UBWENGE Buzima ubu ifite Learning-to-Earning, Zero-Capital Paths, AI Assistant,
+            Admin Dashboard na Settings expansion.
           </p>
           <div className="button-row">
-            <NavLink className="primary-button" to="/feed">
-              Open Opportunity Feed
+            <NavLink className="primary-button" to="/learning">
+              Start Learning
               <ChevronRight size={18} />
             </NavLink>
-            <NavLink className="secondary-button" to="/matching">
-              View Matches
+            <NavLink className="secondary-button" to="/zero-capital">
+              Zero-Capital Paths
             </NavLink>
           </div>
         </div>
 
         <div className="hero-mini-panel">
           <div>
-            <span>Platform Screens</span>
-            <strong>50+ routes</strong>
-            <p>Foundation ikura yerekeza kuri 500+ screens.</p>
+            <span>Platform</span>
+            <strong>70+ screens</strong>
+            <p>Foundation ikomeje kwaguka yerekeza kuri 500+ screens.</p>
           </div>
           <div>
-            <span>Core Engine</span>
-            <strong>Needs → Offers → Matches → Tasks</strong>
-            <p>Marketplace logic yatangiye kugaragara.</p>
+            <span>New Engines</span>
+            <strong>Learning + AI + Admin</strong>
+            <p>Phase 5 yongeramo systems zikomeye.</p>
           </div>
         </div>
       </section>
@@ -598,14 +562,14 @@ function HomeScreen() {
       <StatsRow />
 
       <section className="panel wide">
-        <PanelHeader label="Phase 4 Modules" title="Marketplace workflow yuzuye" />
+        <PanelHeader label="Phase 5 Modules" title="Learning, Zero-Capital, AI, Admin na Settings" />
         <div className="three-grid">
-          <LinkCard to="/needs" icon={ClipboardList} title="Needs" text="Post need, need matches, applications and closed needs." />
-          <LinkCard to="/offers" icon={BriefcaseBusiness} title="Offers" text="Create offer, requests, analytics and featured offers." />
-          <LinkCard to="/matching" icon={Target} title="Matching" text="Match scores, reasons, people, jobs and services." />
-          <LinkCard to="/feed" icon={Zap} title="Opportunity Feed" text="Feed y’amahirwe ifite actions." />
-          <LinkCard to="/reviews" icon={Star} title="Reviews" text="Reviews zubaka reputation." />
-          <LinkCard to="/tasks" icon={CheckCircle2} title="Task Workflow" text="Requested, accepted, in progress, completed and disputed." />
+          <LinkCard to="/learning" icon={GraduationCap} title="Learning-to-Earning" text="Paths, lessons, practice tasks and certificates." />
+          <LinkCard to="/zero-capital" icon={Zap} title="Zero-Capital Paths" text="Assessment and recommended paths for people starting with little money." />
+          <LinkCard to="/ai-assistant" icon={Bot} title="AI Assistant" text="Generate bio, offer, script, message templates and pricing ideas." />
+          <LinkCard to="/admin" icon={LayoutDashboard} title="Admin Dashboard" text="Users, profiles, proof videos, reports, revenue and health." />
+          <LinkCard to="/settings" icon={Settings} title="Settings Expansion" text="Account, security, privacy, language and delete account." />
+          <LinkCard to="/feed" icon={Zap} title="Opportunity Feed" text="Actions, needs, learning prompts and local opportunities." />
         </div>
       </section>
     </div>
@@ -614,17 +578,12 @@ function HomeScreen() {
 
 function ChoosePathScreen() {
   const [selected, setSelected] = useState('Sinzi icyo natanga, mfasha kumenya')
-
   return (
     <section className="panel">
       <PanelHeader label="Choose Your Path" title="Hitamo urugendo rwawe" />
       <div className="path-grid">
         {paths.map((path) => (
-          <button
-            className={`path-option ${selected === path ? 'selected' : ''}`}
-            key={path}
-            onClick={() => setSelected(path)}
-          >
+          <button className={`path-option ${selected === path ? 'selected' : ''}`} key={path} onClick={() => setSelected(path)}>
             <span>{path}</span>
             {selected === path && <CheckCircle2 size={18} />}
           </button>
@@ -656,13 +615,11 @@ function MyProfileScreen() {
           </div>
         </div>
       </section>
-
       <section className="panel">
         <PanelHeader label="Profile Completion" title="82% complete" />
         <Progress value={82} />
         <Checklist items={['Add profile photo', 'Add intro video', 'Add 3 proof links', 'Create first offer', 'Ask for first review']} />
       </section>
-
       <section className="panel">
         <PanelHeader label="Value Statement" title="Icyo mfasha abantu" />
         <p>Mfasha restaurants, salons na shops gukora short videos zibafasha kugaragaza products zabo kuri social media.</p>
@@ -675,11 +632,7 @@ function PublicProfileScreen() {
   return (
     <section className="panel">
       <PanelHeader label="Public Profile" title="Uko client azabona profile yawe" />
-      <div className="profile-grid">
-        {profiles.map((profile) => (
-          <ProfileCard key={profile.name} profile={profile} />
-        ))}
-      </div>
+      <PeopleScreen />
     </section>
   )
 }
@@ -705,30 +658,11 @@ function EditProfileScreen() {
 }
 
 function ProfileProofScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Profile Proof" title="Proof videos zigaragara kuri profile" />
-      <ProofGrid />
-    </section>
-  )
-}
-
-function ProfileReviewsScreen() {
-  return <ReviewsScreen />
+  return <ProofHomeScreen />
 }
 
 function ProfileAnalyticsScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Analytics" title="Profile performance" />
-      <div className="stats-grid">
-        <StatCard value="246" label="Profile Views" />
-        <StatCard value="38" label="Contact Clicks" />
-        <StatCard value="12" label="Requests" />
-        <StatCard value="4.8" label="Average Rating" />
-      </div>
-    </section>
-  )
+  return <StatsScreen title="Profile Analytics" />
 }
 
 function ProofHomeScreen() {
@@ -747,25 +681,10 @@ function AddProofScreen() {
       <div className="form-grid">
         <input placeholder="Video title" />
         <input placeholder="Video link: YouTube, TikTok, Instagram..." />
-        <select>
-          <option>Proof type</option>
-          <option>Skill demonstration</option>
-          <option>Before/after</option>
-          <option>Client testimonial</option>
-          <option>Product demo</option>
-        </select>
-        <select>
-          <option>Related service</option>
-          <option>Short videos</option>
-          <option>Welding</option>
-          <option>Cleaning</option>
-          <option>Tutoring</option>
-        </select>
+        <select><option>Proof type</option><option>Skill demonstration</option><option>Before/after</option><option>Client testimonial</option></select>
+        <select><option>Related service</option><option>Short videos</option><option>Welding</option><option>Cleaning</option></select>
       </div>
-      <button className="primary-button top-space">
-        <Plus size={18} />
-        Add Proof Link
-      </button>
+      <button className="primary-button top-space"><Plus size={18} /> Add Proof Link</button>
     </section>
   )
 }
@@ -782,15 +701,6 @@ function ProofScoreScreen() {
         <ScoreRow label="Related to service" value={10} max={10} />
         <ScoreRow label="Safe and appropriate" value={10} max={10} />
       </div>
-    </section>
-  )
-}
-
-function ProofVerificationScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Verification" title="Proof verification status" />
-      <ProofGrid />
     </section>
   )
 }
@@ -819,61 +729,13 @@ function PostNeedScreen() {
       <PanelHeader label="Post Need" title="Andika icyo ukeneye" />
       <div className="form-grid">
         <input placeholder="Need title" />
-        <select>
-          <option>Category</option>
-          <option>Digital services</option>
-          <option>Cleaning</option>
-          <option>Tutoring</option>
-          <option>Welding</option>
-          <option>Small business support</option>
-        </select>
+        <select><option>Category</option><option>Digital services</option><option>Cleaning</option><option>Tutoring</option></select>
         <input placeholder="Location" />
         <input placeholder="Budget" />
-        <select>
-          <option>Urgency</option>
-          <option>Today</option>
-          <option>This week</option>
-          <option>This month</option>
-        </select>
-        <input placeholder="Preferred proof: video samples, reviews..." />
+        <select><option>Urgency</option><option>Today</option><option>This week</option></select>
+        <input placeholder="Preferred proof" />
       </div>
-      <button className="primary-button top-space">
-        <Plus size={18} />
-        Publish Need
-      </button>
-    </section>
-  )
-}
-
-function NeedMatchesScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Need Matches" title="Abantu bashobora kugufasha" />
-      <MatchList />
-    </section>
-  )
-}
-
-function NeedApplicationsScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Applications" title="Abantu basubije kuri need yawe" />
-      <div className="card-list">
-        <SmallCard title="Aline applied to Restaurant videos" text="Mfite proof videos 3 kandi naboneka iki cyumweru." />
-        <SmallCard title="Claudine applied to WhatsApp setup" text="Nshobora kubikora online mu munsi umwe." />
-      </div>
-    </section>
-  )
-}
-
-function ClosedNeedsScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Closed Needs" title="Needs zarangiye" />
-      <div className="card-list">
-        <SmallCard title="Restaurant videos completed" text="Task completed, review requested, trust score updated." />
-        <SmallCard title="Office cleaning completed" text="Client confirmed completion." />
-      </div>
+      <button className="primary-button top-space"><Plus size={18} /> Publish Need</button>
     </section>
   )
 }
@@ -893,62 +755,13 @@ function CreateOfferScreen() {
       <PanelHeader label="Create Offer" title="Hindura skill yawe service yumvikana" />
       <div className="form-grid">
         <input placeholder="Offer title" />
-        <select>
-          <option>Category</option>
-          <option>Digital services</option>
-          <option>Small business support</option>
-          <option>Welding</option>
-          <option>Tutoring</option>
-        </select>
+        <select><option>Category</option><option>Digital services</option><option>Small business support</option><option>Welding</option></select>
         <input placeholder="Location" />
         <input placeholder="Price range" />
         <input placeholder="Proof video link" />
-        <select>
-          <option>Availability</option>
-          <option>Today</option>
-          <option>This week</option>
-          <option>Weekends</option>
-        </select>
+        <select><option>Availability</option><option>Today</option><option>This week</option></select>
       </div>
-      <button className="primary-button top-space">
-        <Plus size={18} />
-        Create Offer
-      </button>
-    </section>
-  )
-}
-
-function OfferRequestsScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Offer Requests" title="Requests zavuye ku offers zawe" />
-      <div className="card-list">
-        <SmallCard title="Restaurant requested short videos" text="Budget 50,000 RWF • Needs proof samples." />
-        <SmallCard title="Shop requested WhatsApp Business setup" text="Online request • Wants catalog and quick replies." />
-      </div>
-    </section>
-  )
-}
-
-function OfferAnalyticsScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Offer Analytics" title="Uko offers zawe zikora" />
-      <div className="stats-grid">
-        <StatCard value="124" label="Offer Views" />
-        <StatCard value="31" label="Contact Clicks" />
-        <StatCard value="9" label="Requests" />
-        <StatCard value="3" label="Completed Tasks" />
-      </div>
-    </section>
-  )
-}
-
-function FeaturedOffersScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Featured Offers" title="Offers zashyizwe imbere" />
-      <OfferGrid />
+      <button className="primary-button top-space"><Plus size={18} /> Create Offer</button>
     </section>
   )
 }
@@ -967,77 +780,21 @@ function MarketplaceExploreScreen() {
   )
 }
 
-function MarketplaceServicesScreen() {
+function PeopleScreen() {
   return (
-    <section className="panel">
-      <PanelHeader label="Services" title="Services ziri kuri marketplace" />
-      <OfferGrid />
-    </section>
+    <div className="profile-grid">
+      {profiles.map((profile) => <ProfileCard key={profile.name} profile={profile} />)}
+    </div>
   )
 }
 
-function MarketplaceJobsScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Jobs/Gigs" title="Gigs n’akazi gato kari hafi yawe" />
-      <NeedGrid />
-    </section>
-  )
-}
-
-function MarketplacePeopleScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="People" title="People who can help you" />
-      <div className="profile-grid">
-        {profiles.map((profile) => (
-          <ProfileCard key={profile.name} profile={profile} />
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function MarketplaceNeedsScreen() {
-  return <NeedsHomeScreen />
-}
-
-function MarketplaceOffersScreen() {
-  return <OffersHomeScreen />
-}
-
-function MarketplaceSavedScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Saved Items" title="Ibintu wabikije" />
-      <div className="card-list">
-        <SmallCard title="Saved profile: Aline Mukamana" text="Short Video Creator • Kigali" />
-        <SmallCard title="Saved need: Restaurant videos" text="Budget 50,000 RWF • Kigali" />
-        <SmallCard title="Saved proof: Client testimonial" text="YouTube • Verified" />
-      </div>
-    </section>
-  )
-}
-
-function MatchingHomeScreen() {
+function MatchListScreen() {
   return (
     <section className="panel">
       <PanelHeader label="Matching Engine" title="Recommended matches" />
       <MatchList />
     </section>
   )
-}
-
-function MatchingPeopleScreen() {
-  return <MarketplacePeopleScreen />
-}
-
-function MatchingJobsScreen() {
-  return <MarketplaceJobsScreen />
-}
-
-function MatchingServicesScreen() {
-  return <MarketplaceServicesScreen />
 }
 
 function MatchReasonsScreen() {
@@ -1053,15 +810,6 @@ function MatchReasonsScreen() {
         <ScoreRow label="Proof exists" value={10} max={10} />
         <ScoreRow label="Trust score" value={5} max={5} />
       </div>
-    </section>
-  )
-}
-
-function ImproveMatchesScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Improve Matches" title="Kora ibi kugira ngo matches zawe zibe nziza" />
-      <Checklist items={['Complete your profile', 'Add clear proof video', 'Set accurate location', 'Add price range', 'Update availability', 'Ask for reviews after tasks']} />
     </section>
   )
 }
@@ -1103,18 +851,6 @@ function ChatScreen() {
   )
 }
 
-function MessageRequestsScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Message Requests" title="Requests zitarakirwa" />
-      <div className="card-list">
-        <SmallCard title="Restaurant Kigali wants short videos" text="Request service • Budget 50,000 RWF" />
-        <SmallCard title="Shop owner wants WhatsApp setup" text="Need response • Online" />
-      </div>
-    </section>
-  )
-}
-
 function MessageTemplatesScreen() {
   return (
     <section className="panel">
@@ -1122,19 +858,6 @@ function MessageTemplatesScreen() {
       <div className="card-list">
         <SmallCard title="Client template" text="Muraho [Name], nabonye ko mukora [service]. Nkeneye ubufasha kuri [need]." />
         <SmallCard title="Provider template" text="Muraho [Name], nabonye ko mukeneye [service]. Mfite proof kuri profile yanjye." />
-      </div>
-    </section>
-  )
-}
-
-function ArchivedMessagesScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Archived" title="Chats zabitswe" />
-      <div className="empty-state">
-        <FileText size={42} />
-        <h3>No archived chats yet</h3>
-        <p>Chats uzabika zizajya zigaragara hano.</p>
       </div>
     </section>
   )
@@ -1152,11 +875,7 @@ function NotificationsListScreen({ filter }) {
       <PanelHeader label="Notifications" title={`${filter} notifications`} />
       <div className="card-list">
         {list.length === 0 ? (
-          <div className="empty-state">
-            <Bell size={42} />
-            <h3>No notifications</h3>
-            <p>Nta notification iri muri iyi category.</p>
-          </div>
+          <EmptyScreen title="No notifications" icon={Bell} />
         ) : (
           list.map((item) => (
             <article className="notification-card" key={item.title}>
@@ -1168,19 +887,6 @@ function NotificationsListScreen({ filter }) {
             </article>
           ))
         )}
-      </div>
-    </section>
-  )
-}
-
-function NotificationPreferencesScreen() {
-  return (
-    <section className="panel">
-      <PanelHeader label="Preferences" title="Notification settings" />
-      <div className="card-list">
-        <ToggleCard title="Push notifications" text="Receive app/browser alerts." />
-        <ToggleCard title="Email notifications" text="Receive important updates via email." />
-        <ToggleCard title="SMS/WhatsApp notifications" text="Receive urgent requests by phone or WhatsApp." />
       </div>
     </section>
   )
@@ -1212,11 +918,7 @@ function ReviewsScreen() {
       <div className="review-grid">
         {reviews.map((review) => (
           <article className="review-card" key={review.from}>
-            <div className="stars">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <Star key={index} size={17} fill="currentColor" />
-              ))}
-            </div>
+            <div className="stars">{Array.from({ length: 5 }).map((_, index) => <Star key={index} size={17} fill="currentColor" />)}</div>
             <h3>{review.from}</h3>
             <p>{review.comment}</p>
             <span>{review.rating} / 5</span>
@@ -1240,10 +942,6 @@ function TrustScoreScreen() {
         <SmallCard title="Reviews" text="12/15 points" />
         <SmallCard title="No reports" text="5/5 points" />
       </div>
-      <div className="result-box">
-        <span className="eyebrow">How to improve</span>
-        <Checklist items={['Add intro video', 'Add proof video 1 more', 'Complete first task', 'Ask for review', 'Verify phone number']} />
-      </div>
     </section>
   )
 }
@@ -1259,87 +957,242 @@ function TasksHomeScreen() {
 
 function TasksByStatusScreen({ status }) {
   const filtered = tasks.filter((task) => task.status === status)
-
   return (
     <section className="panel">
       <PanelHeader label="Tasks" title={`${status} tasks`} />
       <div className="card-list">
-        {filtered.length === 0 ? (
-          <div className="empty-state">
-            <CheckCircle2 size={42} />
-            <h3>No tasks here</h3>
-            <p>Nta task iri muri iyi status ubu.</p>
-          </div>
-        ) : (
-          filtered.map((task) => <TaskCard key={task.title} task={task} />)
-        )}
+        {filtered.length === 0 ? <EmptyScreen title="No tasks here" icon={CheckCircle2} /> : filtered.map((task) => <TaskCard key={task.title} task={task} />)}
       </div>
     </section>
   )
 }
 
-function LearningScreen() {
+function LearningHomeScreen() {
   return (
     <section className="panel">
-      <PanelHeader label="Learning-to-Earning" title="Amasomo aganisha ku mafaranga" />
-      <div className="three-grid">
-        <LinkCard to="/marketplace/services" icon={GraduationCap} title="WhatsApp Business Helper" text="Learn catalog, quick replies, outreach and proof." />
-        <LinkCard to="/proof-videos/tips" icon={PlayCircle} title="Proof Video Helper" text="Learn how to help artisans create proof videos." />
-        <LinkCard to="/marketplace/offers" icon={Store} title="Product Listing Helper" text="Help shops list products online." />
+      <PanelHeader label="Learning-to-Earning" title="Amasomo aganisha ku mafaranga" text="Amasomo ntabwo ari library gusa; agomba kuganisha kuri proof, offer, outreach na first client." />
+      <LearningPathGrid />
+    </section>
+  )
+}
+
+function LearningPathsScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader label="Learning Paths" title="Paths zishobora kuganisha kuri income" />
+      <LearningPathGrid />
+    </section>
+  )
+}
+
+function LearningDetailScreen({ title }) {
+  return (
+    <section className="panel">
+      <PanelHeader label="Learning Path" title={title} text="Iyi path igizwe n’amasomo magufi, practice task, proof creation, offer creation na outreach." />
+      <div className="phase5-timeline">
+        <StepCard number="1" title="Market Demand" text="Small businesses need this service." />
+        <StepCard number="2" title="Short Lessons" text="Iga basics mu buryo bworoshye." />
+        <StepCard number="3" title="Practice Task" text="Kora demo cyangwa sample." />
+        <StepCard number="4" title="Create Proof" text="Fata video cyangwa screenshots." />
+        <StepCard number="5" title="Create Offer" text="Hindura skill yawe service." />
+        <StepCard number="6" title="Outreach" text="Ohereza message ku bantu 20." />
       </div>
     </section>
   )
 }
 
-function AiAssistantScreen() {
+function LearningTasksScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader label="Practice Tasks" title="Tasks zito zubaka proof" />
+      <Checklist items={['Create a demo WhatsApp catalog', 'Record 1-minute proof video', 'Write service offer', 'Send outreach message to 5 shops']} />
+    </section>
+  )
+}
+
+function CertificateScreen() {
+  return (
+    <section className="panel">
+      <div className="certificate-card">
+        <GraduationCap size={48} />
+        <span className="eyebrow">Certificate</span>
+        <h2>UBWENGE Buzima Practical Skill Certificate</h2>
+        <p>Issued after completing lessons, task, proof and offer creation.</p>
+      </div>
+    </section>
+  )
+}
+
+function ZeroCapitalHomeScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader label="Zero-Capital Engine" title="Tangira n’ibyo ufite" text="Iyi engine ifasha umuntu ufite phone, internet nke, network cyangwa ubushobozi buke kubona inzira yatangiriraho." />
+      <div className="three-grid">
+        <LinkCard to="/zero-capital/assessment" icon={ClipboardList} title="Assessment" text="Menya icyo ufite n’icyo waheraho." />
+        <LinkCard to="/zero-capital/recommended" icon={Target} title="Recommended Path" text="AI iguhe path ikubereye." />
+        <LinkCard to="/zero-capital/proof-video-helper" icon={PlayCircle} title="Proof Video Helper" text="Tangira ufasha artisans gukora proof." />
+      </div>
+    </section>
+  )
+}
+
+function ZeroCapitalAssessmentScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader label="Assessment" title="Ufite iki watangiriraho?" />
+      <div className="form-grid">
+        <select><option>Ufite phone?</option><option>Yego</option><option>Oya</option></select>
+        <select><option>Ufite internet?</option><option>Yego</option><option>Rimwe na rimwe</option></select>
+        <select><option>Uzi gufata video?</option><option>Yego</option><option>Ndabyiga</option></select>
+        <select><option>Uzi kuvuga neza?</option><option>Yego</option><option>Buhoro</option></select>
+        <select><option>Uzi abantu benshi?</option><option>Yego</option><option>Oya</option></select>
+        <select><option>Ushobora kugenda mu gace?</option><option>Yego</option><option>Oya</option></select>
+      </div>
+      <NavLink to="/zero-capital/recommended" className="primary-button top-space">See Recommended Path</NavLink>
+    </section>
+  )
+}
+
+function RecommendedZeroCapitalScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader label="Recommended Path" title="Proof Video Helper" text="Ufite phone + uzi gufata video + ushobora kuganira n’abantu. Tangirira ku bantu bafite ibikorwa ariko badafite proof." />
+      <Checklist items={['Shaka artisan umwe', 'Mufashe gukora video ya 30 seconds', 'Mufashe gushyiraho proof', 'Mwandikishe kuri UBWENGE Buzima']} />
+    </section>
+  )
+}
+
+function ZeroCapitalPathScreen({ title }) {
+  return (
+    <section className="panel">
+      <PanelHeader label="Zero-Capital Path" title={title} />
+      <div className="phase5-timeline">
+        <StepCard number="1" title="Find opportunity" text="Shaka umuntu/business ifite ikibazo." />
+        <StepCard number="2" title="Offer help" text="Mwereke uko wamufasha." />
+        <StepCard number="3" title="Create proof" text="Kora sample cyangwa proof." />
+        <StepCard number="4" title="Get first review" text="Saba review nyuma y’igikorwa." />
+      </div>
+    </section>
+  )
+}
+
+function AiAssistantHomeScreen() {
   return (
     <section className="panel">
       <PanelHeader label="AI Assistant" title="Umujyanama w’amahirwe" />
       <div className="ai-box">
-        <div className="chat-message left">
-          Mfite phone, ndi i Kigali, sinzi coding, ariko nzi kuvuga no gufata amafoto. Nakora iki?
-        </div>
-        <div className="chat-message right ai">
-          Ushobora gutangira nka Proof Video Helper cyangwa Social Media Assistant. Tangirira kuri shops, salons na restaurants ziri hafi yawe.
-        </div>
+        <div className="chat-message left">Mfite phone, ndi i Kigali, sinzi coding, ariko nzi kuvuga no gufata amafoto. Nakora iki?</div>
+        <div className="chat-message right ai">Ushobora gutangira nka Proof Video Helper cyangwa Social Media Assistant. Tangirira kuri shops, salons na restaurants ziri hafi yawe.</div>
       </div>
-      <div className="form-grid top-space">
-        <input placeholder="Ask AI: Mfasha gukora bio..." />
-        <button className="primary-button">
-          <Bot size={18} />
-          Generate Advice
-        </button>
+      <div className="three-grid top-space">
+        <LinkCard to="/ai-assistant/find-my-skill" icon={Search} title="Find My Skill" text="AI igufashe kubona icyo watanga." />
+        <LinkCard to="/ai-assistant/generate-bio" icon={User} title="Generate Bio" text="Kora profile bio igurisha value." />
+        <LinkCard to="/ai-assistant/video-script" icon={PlayCircle} title="Video Script" text="Kora intro/proof video script." />
       </div>
     </section>
   )
 }
 
-function AdminScreen() {
+function AiToolScreen({ title, output }) {
   return (
     <section className="panel">
-      <PanelHeader label="Admin Dashboard" title="Founder view" />
+      <PanelHeader label="AI Tool" title={title} />
+      <div className="form-grid">
+        <input placeholder="Andika ibyo ushaka ko AI igufasha..." />
+        <button className="primary-button"><Bot size={18} /> Generate</button>
+      </div>
+      <div className="result-box">
+        <span className="eyebrow">AI Output Example</span>
+        <h3>{title}</h3>
+        <p>{output}</p>
+      </div>
+    </section>
+  )
+}
+
+function AdminDashboardScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader label="Admin Dashboard" title="Founder view" text="Aho founder arebera ubuzima bwa platform." />
+      <div className="stats-grid">{adminStats.map((stat) => <StatCard key={stat.label} value={stat.value} label={stat.label} />)}</div>
+    </section>
+  )
+}
+
+function AdminTableScreen({ title }) {
+  return (
+    <section className="panel">
+      <PanelHeader label="Admin" title={`${title} Management`} />
+      <div className="admin-table">
+        {['Name/Title', 'Category', 'Status', 'Action'].map((head) => <strong key={head}>{head}</strong>)}
+        {['Aline Mukamana', 'Digital services', 'Active', 'View'].map((cell) => <span key={cell}>{cell}</span>)}
+        {['Restaurant videos', 'Need', 'Open', 'Review'].map((cell) => <span key={cell}>{cell}</span>)}
+        {['Proof video sample', 'Proof', 'Pending', 'Approve'].map((cell) => <span key={cell}>{cell}</span>)}
+      </div>
+    </section>
+  )
+}
+
+function AdminReportsScreen() {
+  return <SimpleList title="Reports" items={['Reported profile: pending review', 'Reported proof video: needs moderation', 'Disputed task: late delivery']} />
+}
+
+function AdminRevenueScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader label="Revenue" title="Monetization MVP" text="Revenue izaza nyuma yo gutanga value: featured profiles, business accounts, premium AI, subscriptions." />
       <div className="stats-grid">
-        <StatCard value="128" label="Users" />
-        <StatCard value="74" label="Profiles" />
-        <StatCard value="213" label="Proof Videos" />
-        <StatCard value="46" label="Needs" />
-        <StatCard value="59" label="Offers" />
-        <StatCard value="301" label="Matches" />
+        <StatCard value="0 RWF" label="Current MVP Revenue" />
+        <StatCard value="12" label="Future Premium Leads" />
+        <StatCard value="4" label="Business Accounts" />
+        <StatCard value="0%" label="Commission Active" />
       </div>
     </section>
   )
 }
 
-function SettingsScreen() {
+function AdminHealthScreen() {
   return (
     <section className="panel">
-      <PanelHeader label="Settings" title="Account and platform settings" />
-      <div className="card-list">
-        <SmallCard title="Account Settings" text="Email, phone, password, language and location." />
-        <SmallCard title="Notification Settings" text="Push, email, SMS and WhatsApp preferences." />
-        <SmallCard title="Privacy Settings" text="Profile visibility, blocked users and data options." />
-        <SmallCard title="Security Settings" text="Two-factor authentication and login protection." />
+      <PanelHeader label="Platform Health" title="Ubuzima bwa platform" />
+      <Checklist items={['Users are joining', 'Profiles are being completed', 'Proof videos are increasing', 'Needs and offers are balanced', 'Matches are generating actions']} />
+    </section>
+  )
+}
+
+function SettingsCards({ title, type }) {
+  const items = {
+    account: ['Edit email', 'Edit phone', 'Change password', 'Location settings'],
+    security: ['Two-factor authentication', 'Login protection', 'Session history', 'Security alerts'],
+    privacy: ['Profile visibility', 'Blocked users', 'Data options', 'Contact preferences'],
+    notifications: ['Push notifications', 'Email notifications', 'SMS/WhatsApp notifications', 'Notification history'],
+  }[type] || ['General setting']
+
+  return (
+    <section className="panel">
+      <PanelHeader label="Settings" title={title} />
+      <div className="card-list">{items.map((item) => <ToggleCard key={item} title={item} text="You can turn this setting on or off." />)}</div>
+    </section>
+  )
+}
+
+function LanguageSettingsScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader label="Language" title="Language Settings" />
+      <div className="form-grid">
+        <select><option>Kinyarwanda</option><option>English</option><option>Français</option></select>
+        <select><option>Use mixed Kinyarwanda + English</option><option>Kinyarwanda only</option><option>English only</option></select>
       </div>
+    </section>
+  )
+}
+
+function DeleteAccountScreen() {
+  return (
+    <section className="panel danger-panel">
+      <PanelHeader label="Danger Zone" title="Delete Account" text="This is a mock screen. Real delete account will require confirmation and backend." />
+      <button className="danger-button"><Trash2 size={18} /> Delete Account</button>
     </section>
   )
 }
@@ -1347,8 +1200,8 @@ function SettingsScreen() {
 function StatsRow() {
   return (
     <section className="stats-grid wide">
-      <StatCard value="50+" label="Routed Screens" />
-      <StatCard value="10+" label="Platform Modules" />
+      <StatCard value="70+" label="Routed Screens" />
+      <StatCard value="15+" label="Platform Modules" />
       <StatCard value="78" label="Trust Score Sample" />
       <StatCard value="AI" label="Opportunity Advisor" />
     </section>
@@ -1368,9 +1221,7 @@ function PanelHeader({ label, title, text }) {
 function LinkCard({ to, icon: Icon, title, text }) {
   return (
     <NavLink to={to} className="action-card">
-      <div className="module-icon">
-        <Icon size={22} />
-      </div>
+      <div className="module-icon"><Icon size={22} /></div>
       <h3>{title}</h3>
       <p>{text}</p>
     </NavLink>
@@ -1378,21 +1229,11 @@ function LinkCard({ to, icon: Icon, title, text }) {
 }
 
 function SmallCard({ title, text }) {
-  return (
-    <article className="small-card">
-      <h3>{title}</h3>
-      <p>{text}</p>
-    </article>
-  )
+  return <article className="small-card"><h3>{title}</h3><p>{text}</p></article>
 }
 
 function StatCard({ value, label }) {
-  return (
-    <div className="stat-card">
-      <strong>{value}</strong>
-      <span>{label}</span>
-    </div>
-  )
+  return <div className="stat-card"><strong>{value}</strong><span>{label}</span></div>
 }
 
 function ProfileCard({ profile }) {
@@ -1401,15 +1242,8 @@ function ProfileCard({ profile }) {
       <div className="avatar">{profile.initials}</div>
       <h3>{profile.name}</h3>
       <p>{profile.role} • {profile.location}</p>
-      <div className="pill-row">
-        <span>Trust {profile.trust}</span>
-        <span>{profile.proofs} proofs</span>
-        <span>{profile.rating} stars</span>
-      </div>
-      <button className="secondary-button">
-        <Eye size={17} />
-        View Profile
-      </button>
+      <div className="pill-row"><span>Trust {profile.trust}</span><span>{profile.proofs} proofs</span><span>{profile.rating} stars</span></div>
+      <button className="secondary-button"><Eye size={17} /> View Profile</button>
     </article>
   )
 }
@@ -1419,17 +1253,10 @@ function ProofGrid() {
     <div className="proof-grid">
       {proofs.map((proof) => (
         <article className="proof-card" key={proof.title}>
-          <div className="proof-thumb">
-            <PlayCircle size={34} />
-          </div>
-          <div>
-            <h3>{proof.title}</h3>
-            <p>{proof.source} • {proof.type} • {proof.service}</p>
-            <div className="pill-row">
-              <span>Score {proof.score}/100</span>
-              <span>{proof.status}</span>
-            </div>
-          </div>
+          <div className="proof-thumb"><PlayCircle size={34} /></div>
+          <h3>{proof.title}</h3>
+          <p>{proof.source} • {proof.type} • {proof.service}</p>
+          <div className="pill-row"><span>Score {proof.score}/100</span><span>{proof.status}</span></div>
         </article>
       ))}
     </div>
@@ -1437,176 +1264,88 @@ function ProofGrid() {
 }
 
 function NeedGrid() {
-  return (
-    <div className="card-list">
-      {needs.map((need) => (
-        <article className="data-card" key={need.title}>
-          <div>
-            <h3>{need.title}</h3>
-            <p>{need.category} • {need.location}</p>
-          </div>
-          <div className="pill-row">
-            <span>{need.budget}</span>
-            <span>{need.urgency}</span>
-          </div>
-        </article>
-      ))}
-    </div>
-  )
+  return <div className="card-list">{needs.map((need) => <article className="data-card" key={need.title}><div><h3>{need.title}</h3><p>{need.category} • {need.location}</p></div><div className="pill-row"><span>{need.budget}</span><span>{need.urgency}</span></div></article>)}</div>
 }
 
 function OfferGrid() {
-  return (
-    <div className="card-list">
-      {offers.map((offer) => (
-        <article className="data-card" key={offer.title}>
-          <div>
-            <h3>{offer.title}</h3>
-            <p>{offer.category} • {offer.location}</p>
-          </div>
-          <div className="pill-row">
-            <span>{offer.price}</span>
-            <span>{offer.proof}</span>
-          </div>
-        </article>
-      ))}
-    </div>
-  )
+  return <div className="card-list">{offers.map((offer) => <article className="data-card" key={offer.title}><div><h3>{offer.title}</h3><p>{offer.category} • {offer.location}</p></div><div className="pill-row"><span>{offer.price}</span><span>{offer.proof}</span></div></article>)}</div>
 }
 
 function MatchList() {
-  return (
-    <div className="card-list">
-      {matches.map((match) => (
-        <MatchCard key={match.title} match={match} />
-      ))}
-    </div>
-  )
+  return <div className="card-list">{matches.map((match) => <MatchCard key={match.title} match={match} />)}</div>
 }
 
 function MatchCard({ match }) {
   return (
     <article className="match-card-phase4">
-      <div>
-        <h3>{match.title}</h3>
-        <p>{match.type}</p>
-        <small>{match.reason}</small>
-      </div>
-      <div className="match-score">
-        <strong>{match.score}</strong>
-        <span>/100</span>
-      </div>
+      <div><h3>{match.title}</h3><p>{match.type}</p><small>{match.reason}</small></div>
+      <div className="match-score"><strong>{match.score}</strong><span>/100</span></div>
     </article>
   )
 }
 
 function MessageList() {
-  return (
-    <div className="inbox">
-      {['Aline Mukamana', 'Restaurant Kigali', 'Eric Welding', 'AI Assistant'].map((name) => (
-        <NavLink key={name} to="/messages/chat">
-          <strong>{name}</strong>
-          <span>Muraho, nabonye ko mukora service...</span>
-        </NavLink>
-      ))}
-    </div>
-  )
+  return <div className="inbox">{['Aline Mukamana', 'Restaurant Kigali', 'Eric Welding', 'AI Assistant'].map((name) => <NavLink key={name} to="/messages/chat"><strong>{name}</strong><span>Muraho, nabonye ko mukora service...</span></NavLink>)}</div>
 }
 
 function FilterTabs({ tabs }) {
-  return (
-    <div className="filter-row">
-      {tabs.map((tab) => (
-        <button key={tab}>
-          <Filter size={15} />
-          {tab}
-        </button>
-      ))}
-    </div>
-  )
+  return <div className="filter-row">{tabs.map((tab) => <button key={tab}><Filter size={15} /> {tab}</button>)}</div>
 }
 
 function Progress({ value }) {
-  return (
-    <div className="progress-track">
-      <div style={{ width: `${value}%` }} />
-    </div>
-  )
+  return <div className="progress-track"><div style={{ width: `${value}%` }} /></div>
 }
 
 function Checklist({ items }) {
+  return <div className="checklist">{items.map((item) => <div key={item}><CheckCircle2 size={18} /><span>{item}</span></div>)}</div>
+}
+
+function ChecklistScreen({ title }) {
   return (
-    <div className="checklist">
-      {items.map((item) => (
-        <div key={item}>
-          <CheckCircle2 size={18} />
-          <span>{item}</span>
-        </div>
-      ))}
-    </div>
+    <section className="panel">
+      <PanelHeader label="Checklist" title={title} />
+      <Checklist items={['Complete your profile', 'Add clear proof video', 'Set accurate location', 'Add price range', 'Update availability', 'Ask for reviews after tasks']} />
+    </section>
   )
 }
 
 function ScoreRow({ label, value, max }) {
   const width = Math.round((value / max) * 100)
-
-  return (
-    <div className="score-row">
-      <div>
-        <strong>{label}</strong>
-        <span>{value} points</span>
-      </div>
-      <Progress value={width} />
-    </div>
-  )
+  return <div className="score-row"><div><strong>{label}</strong><span>{value} points</span></div><Progress value={width} /></div>
 }
 
 function TaskKanban() {
   const statuses = ['Requested', 'Accepted', 'In progress', 'Completed', 'Disputed']
-
-  return (
-    <div className="kanban">
-      {statuses.map((status) => (
-        <div className="kanban-column" key={status}>
-          <h3>{status}</h3>
-          {tasks
-            .filter((task) => task.status === status)
-            .map((task) => (
-              <TaskCard key={task.title} task={task} />
-            ))}
-        </div>
-      ))}
-    </div>
-  )
+  return <div className="kanban">{statuses.map((status) => <div className="kanban-column" key={status}><h3>{status}</h3>{tasks.filter((task) => task.status === status).map((task) => <TaskCard key={task.title} task={task} />)}</div>)}</div>
 }
 
 function TaskCard({ task }) {
-  return (
-    <article className="task-card">
-      <h3>{task.title}</h3>
-      <p>{task.client}</p>
-      <div className="pill-row">
-        <span>{task.status}</span>
-        <span>{task.budget}</span>
-      </div>
-    </article>
-  )
+  return <article className="task-card"><h3>{task.title}</h3><p>{task.client}</p><div className="pill-row"><span>{task.status}</span><span>{task.budget}</span></div></article>
+}
+
+function LearningPathGrid() {
+  return <div className="three-grid">{learningPaths.map((path) => <article className="phase5-card" key={path.title}><GraduationCap size={24} /><h3>{path.title}</h3><p>{path.result}</p><div className="pill-row"><span>{path.lessons} lessons</span><span>{path.demand}</span></div></article>)}</div>
+}
+
+function StepCard({ number, title, text }) {
+  return <article className="step-card"><span>{number}</span><div><h3>{title}</h3><p>{text}</p></div></article>
+}
+
+function SimpleList({ title, items }) {
+  return <section className="panel"><PanelHeader label="List" title={title} /><div className="card-list">{items.map((item) => <SmallCard key={item} title={item} text="Mock data item for this screen." />)}</div></section>
+}
+
+function StatsScreen({ title }) {
+  return <section className="panel"><PanelHeader label="Analytics" title={title} /><div className="stats-grid"><StatCard value="124" label="Views" /><StatCard value="31" label="Clicks" /><StatCard value="9" label="Requests" /><StatCard value="3" label="Completed" /></div></section>
+}
+
+function EmptyScreen({ title, icon: Icon }) {
+  return <div className="empty-state"><Icon size={42} /><h3>{title}</h3><p>Content will appear here when users start using the platform.</p></div>
 }
 
 function ToggleCard({ title, text }) {
   const [on, setOn] = useState(true)
-
-  return (
-    <article className="toggle-card">
-      <div>
-        <h3>{title}</h3>
-        <p>{text}</p>
-      </div>
-      <button className={on ? 'toggle on' : 'toggle'} onClick={() => setOn(!on)}>
-        <span />
-      </button>
-    </article>
-  )
+  return <article className="toggle-card"><div><h3>{title}</h3><p>{text}</p></div><button className={on ? 'toggle on' : 'toggle'} onClick={() => setOn(!on)}><span /></button></article>
 }
 
 export default App
