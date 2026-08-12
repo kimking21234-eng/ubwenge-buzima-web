@@ -1013,3 +1013,132 @@ feed-card,
     grid-template-columns: repeat(5, minmax(220px, 1fr));
   }
 }
+
+.phase5-card,
+.step-card,
+.certificate-card,
+.admin-table,
+.danger-panel {
+  border: 1px solid rgba(16, 32, 24, 0.08);
+  border-radius: 24px;
+  background: #fff;
+  padding: 18px;
+}
+
+.phase5-card {
+  display: grid;
+  gap: 12px;
+}
+
+.phase5-card svg {
+  color: #f46821;
+}
+
+.phase5-card h3,
+.step-card h3 {
+  margin-bottom: 6px;
+}
+
+.phase5-card p,
+.step-card p,
+.certificate-card p {
+  color: #5d6c63;
+  line-height: 1.7;
+}
+
+.phase5-timeline {
+  display: grid;
+  gap: 14px;
+}
+
+.step-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.step-card > span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #ffb000;
+  color: #111;
+  font-weight: 950;
+}
+
+.certificate-card {
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background:
+    linear-gradient(135deg, rgba(255, 176, 0, 0.22), rgba(41, 190, 253, 0.14)),
+    #fff;
+}
+
+.certificate-card svg {
+  color: #f46821;
+}
+
+.admin-table {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.admin-table strong,
+.admin-table span {
+  padding: 14px;
+  border-bottom: 1px solid rgba(16, 32, 24, 0.08);
+  border-right: 1px solid rgba(16, 32, 24, 0.08);
+}
+
+.admin-table strong {
+  background: #102018;
+  color: #fff;
+}
+
+.admin-table span {
+  color: #425247;
+  font-weight: 760;
+}
+
+.danger-panel {
+  border-color: rgba(244, 50, 86, 0.24);
+  background:
+    linear-gradient(135deg, rgba(244, 50, 86, 0.08), rgba(255, 255, 255, 0.85)),
+    #fff;
+}
+
+.danger-button {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 16px;
+  background: #f43256;
+  color: #fff;
+  font-weight: 900;
+}
+
+@media (max-width: 760px) {
+  .admin-table {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-table strong,
+  .admin-table span {
+    border-right: 0;
+  }
+
+  .step-card {
+    grid-template-columns: 1fr;
+  }
+}
