@@ -15,6 +15,7 @@ import {
   CheckCircle2,
   ChevronRight,
   ClipboardList,
+  Database,
   Edit3,
   Eye,
   FileText,
@@ -23,12 +24,14 @@ import {
   Home,
   KeyRound,
   LayoutDashboard,
+  Link2,
   Lock,
   LogIn,
   Menu,
   MessageCircle,
   PlayCircle,
   Plus,
+  Route as RouteIcon,
   Search,
   Settings,
   ShieldCheck,
@@ -67,6 +70,7 @@ const mainNav = [
   { to: '/ai-assistant', label: 'AI Assistant', icon: Bot },
   { to: '/admin', label: 'Admin', icon: LayoutDashboard },
   { to: '/settings', label: 'Settings', icon: Settings },
+  { to: '/backend', label: 'Backend Ready', icon: Database },
 ]
 
 const authSubNav = [
@@ -217,6 +221,14 @@ const settingsSubNav = [
   { to: '/settings/delete-account', label: 'Delete Account' },
 ]
 
+const backendSubNav = [
+  { to: '/backend', label: 'Overview' },
+  { to: '/backend/database', label: 'Database Schema' },
+  { to: '/backend/api', label: 'API Routes' },
+  { to: '/backend/flows', label: 'Data Flows' },
+  { to: '/backend/roadmap', label: 'Backend Roadmap' },
+]
+
 const paths = [
   'Ndashaka akazi',
   'Ndashaka clients',
@@ -304,6 +316,29 @@ const adminStats = [
   { value: '0 RWF', label: 'Revenue MVP' },
 ]
 
+const databaseTables = [
+  { name: 'users', fields: ['id', 'name', 'email', 'phone', 'role', 'language', 'created_at'] },
+  { name: 'profiles', fields: ['id', 'user_id', 'bio', 'location', 'availability', 'price_range', 'trust_score'] },
+  { name: 'proof_videos', fields: ['id', 'user_id', 'title', 'url', 'source', 'score', 'status'] },
+  { name: 'needs', fields: ['id', 'user_id', 'title', 'category', 'location', 'budget', 'urgency'] },
+  { name: 'offers', fields: ['id', 'user_id', 'title', 'category', 'price', 'proof_id', 'availability'] },
+  { name: 'matches', fields: ['id', 'need_id', 'offer_id', 'provider_id', 'score', 'reason'] },
+  { name: 'messages', fields: ['id', 'sender_id', 'receiver_id', 'body', 'status', 'created_at'] },
+  { name: 'tasks', fields: ['id', 'client_id', 'provider_id', 'title', 'status', 'budget'] },
+  { name: 'reviews', fields: ['id', 'task_id', 'rating', 'comment', 'reviewer_id', 'receiver_id'] },
+]
+
+const apiRoutes = [
+  { method: 'GET', path: '/api/profiles', text: 'List profiles with proof and trust score.' },
+  { method: 'POST', path: '/api/needs', text: 'Create a new need.' },
+  { method: 'POST', path: '/api/offers', text: 'Create a new offer.' },
+  { method: 'GET', path: '/api/matches/:userId', text: 'Return recommended matches.' },
+  { method: 'POST', path: '/api/messages', text: 'Send a message.' },
+  { method: 'PATCH', path: '/api/tasks/:id/status', text: 'Update task workflow status.' },
+  { method: 'POST', path: '/api/reviews', text: 'Create a review after completed task.' },
+  { method: 'DELETE', path: '/api/account', text: 'Delete user account with confirmation.' },
+]
+
 function App() {
   return (
     <BrowserRouter>
@@ -343,12 +378,7 @@ function Shell() {
           {mainNav.map((item) => {
             const Icon = item.icon
             return (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.to === '/'}
-                onClick={() => setSidebarOpen(false)}
-              >
+              <NavLink key={item.to} to={item.to} end={item.to === '/'} onClick={() => setSidebarOpen(false)}>
                 <Icon size={18} />
                 <span>{item.label}</span>
               </NavLink>
@@ -358,8 +388,8 @@ function Shell() {
 
         <div className="sidebar-card">
           <Sparkles size={18} />
-          <strong>Phase 7</strong>
-          <p>Login, signup, phone verification na onboarding system.</p>
+          <strong>Phase 8</strong>
+          <p>Database-ready structure, API routes, backend flows and implementation roadmap.</p>
         </div>
       </aside>
 
@@ -370,7 +400,7 @@ function Shell() {
           </button>
 
           <div>
-            <p className="breadcrumb">UBWENGE Buzima / Phase 7</p>
+            <p className="breadcrumb">UBWENGE Buzima / Phase 8</p>
             <h1>{pageTitle}</h1>
           </div>
 
@@ -401,10 +431,10 @@ function Shell() {
 
           <Route path="/onboarding" element={<ModuleLayout nav={onboardingSubNav} />}>
             <Route index element={<OnboardingWelcomeScreen />} />
-            <Route path="identity" element={<OnboardingIdentityScreen />} />
-            <Route path="goal" element={<OnboardingGoalScreen />} />
-            <Route path="assets" element={<OnboardingAssetsScreen />} />
-            <Route path="proof" element={<OnboardingProofScreen />} />
+            <Route path="identity" element={<OnboardingStepScreen step="Identity" />} />
+            <Route path="goal" element={<OnboardingStepScreen step="Goal" />} />
+            <Route path="assets" element={<OnboardingStepScreen step="Assets" />} />
+            <Route path="proof" element={<OnboardingStepScreen step="Proof" />} />
             <Route path="first-action" element={<OnboardingFirstActionScreen />} />
             <Route path="complete" element={<OnboardingCompleteScreen />} />
           </Route>
@@ -544,6 +574,14 @@ function Shell() {
             <Route path="delete-account" element={<DeleteAccountScreen />} />
           </Route>
 
+          <Route path="/backend" element={<ModuleLayout nav={backendSubNav} />}>
+            <Route index element={<BackendOverviewScreen />} />
+            <Route path="database" element={<BackendDatabaseScreen />} />
+            <Route path="api" element={<BackendApiScreen />} />
+            <Route path="flows" element={<BackendFlowsScreen />} />
+            <Route path="roadmap" element={<BackendRoadmapScreen />} />
+          </Route>
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </section>
@@ -573,33 +611,33 @@ function HomeScreen() {
     <div className="screen-grid">
       <section className="hero-card wide">
         <div>
-          <span className="eyebrow">Phase 7 Complete</span>
+          <span className="eyebrow">Phase 8 Complete</span>
           <h2>Erekana icyo ushoboye. Hura n’abagukeneye. Hindura skills zawe amafaranga.</h2>
           <p>
-            UBWENGE Buzima ubu yongewemo Login, Sign Up, Phone Verification, OTP
-            na Onboarding system ifasha user kuva ku kwinjira kugeza kuri first action.
+            UBWENGE Buzima ubu ifite database-ready blueprint: users, profiles, proof videos,
+            needs, offers, matches, messages, tasks, reviews, trust score, AI records na admin analytics.
           </p>
           <div className="button-row">
-            <NavLink className="primary-button" to="/auth/signup">
-              Create Account
+            <NavLink className="primary-button" to="/backend">
+              Open Backend Blueprint
               <ChevronRight size={18} />
             </NavLink>
-            <NavLink className="secondary-button" to="/onboarding">
-              Start Onboarding
+            <NavLink className="secondary-button" to="/backend/database">
+              View Database Schema
             </NavLink>
           </div>
         </div>
 
         <div className="hero-mini-panel">
           <div>
-            <span>Auth System</span>
-            <strong>Login + Sign Up + OTP</strong>
-            <p>Mock screens ready for backend connection.</p>
+            <span>Phase 8</span>
+            <strong>Backend-ready</strong>
+            <p>Frontend iri gutegura database, APIs na backend flows.</p>
           </div>
           <div>
-            <span>Onboarding</span>
-            <strong>Identity → Goal → Assets → Proof</strong>
-            <p>User journey irimo kuyoborwa step by step.</p>
+            <span>Next</span>
+            <strong>Real data layer</strong>
+            <p>Phase 9 izatangira local data store na interactive mock actions.</p>
           </div>
         </div>
       </section>
@@ -607,31 +645,57 @@ function HomeScreen() {
       <StatsRow />
 
       <section className="panel wide">
-        <PanelHeader label="Phase 7 Modules" title="Authentication + Onboarding foundation" />
+        <PanelHeader label="Phase 8 Modules" title="Database-ready structure + backend roadmap" />
         <div className="three-grid">
-          <LinkCard to="/auth/login" icon={LogIn} title="Login" text="Email/phone login mock screen." />
-          <LinkCard to="/auth/signup" icon={UserPlus} title="Sign Up" text="Create account and choose account type." />
-          <LinkCard to="/auth/otp" icon={KeyRound} title="OTP Verification" text="Phone verification flow." />
-          <LinkCard to="/onboarding/identity" icon={User} title="Identity" text="Name, location, language and contact." />
-          <LinkCard to="/onboarding/goal" icon={Target} title="Goal" text="Akazi, clients, service, learning or opportunity." />
-          <LinkCard to="/onboarding/first-action" icon={Zap} title="First Action" text="Platform gives the next step immediately." />
+          <LinkCard to="/backend/database" icon={Database} title="Database Schema" text="Users, profiles, proof videos, needs, offers, matches, tasks and reviews." />
+          <LinkCard to="/backend/api" icon={Link2} title="API Routes" text="REST-style routes ready for backend implementation." />
+          <LinkCard to="/backend/flows" icon={RouteIcon} title="Data Flows" text="User journey, marketplace flow, task flow and review loop." />
+          <LinkCard to="/backend/roadmap" icon={ClipboardList} title="Backend Roadmap" text="Steps from frontend MVP to real users and database." />
+          <LinkCard to="/admin" icon={LayoutDashboard} title="Admin Ready" text="Admin metrics connected conceptually to database tables." />
+          <LinkCard to="/ai-assistant" icon={Bot} title="AI Records" text="AI outputs can later be stored, reused and improved." />
         </div>
       </section>
     </div>
   )
 }
 
+function AuthShell({ label, title, text, action, footerText, footerLink, footerLinkText, children }) {
+  return (
+    <section className="auth-layout">
+      <div className="auth-panel">
+        <span className="eyebrow">{label}</span>
+        <h2>{title}</h2>
+        <p>{text}</p>
+        <div className="auth-form">
+          {children}
+          <NavLink to="/auth/success" className="primary-button">
+            {action}
+            <ChevronRight size={18} />
+          </NavLink>
+        </div>
+        <p className="auth-footer">
+          {footerText} <NavLink to={footerLink}>{footerLinkText}</NavLink>
+        </p>
+      </div>
+
+      <div className="auth-side-card">
+        <Sparkles size={28} />
+        <h3>Why UBWENGE Buzima?</h3>
+        <p>Build profile, upload proof, get matches, message clients, complete tasks and grow trust score.</p>
+        <div className="pill-row">
+          <span>Skills</span>
+          <span>Proof</span>
+          <span>Trust</span>
+          <span>Income</span>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function LoginScreen() {
   return (
-    <AuthShell
-      label="Login"
-      title="Injira muri UBWENGE Buzima"
-      text="Injira ukoresheje email cyangwa phone kugira ngo ukomeze profile, matches na opportunities."
-      action="Login"
-      footerText="Nta account ufite?"
-      footerLink="/auth/signup"
-      footerLinkText="Create account"
-    >
+    <AuthShell label="Login" title="Injira muri UBWENGE Buzima" text="Injira ukoresheje email cyangwa phone." action="Login" footerText="Nta account ufite?" footerLink="/auth/signup" footerLinkText="Create account">
       <input placeholder="Email or phone" />
       <input placeholder="Password" type="password" />
       <NavLink to="/auth/forgot-password" className="auth-link">Forgot password?</NavLink>
@@ -641,15 +705,7 @@ function LoginScreen() {
 
 function SignupScreen() {
   return (
-    <AuthShell
-      label="Sign Up"
-      title="Create your opportunity account"
-      text="Tangira kubaka profile, proof, trust score na opportunities zawe."
-      action="Create Account"
-      footerText="Usanzwe ufite account?"
-      footerLink="/auth/login"
-      footerLinkText="Login"
-    >
+    <AuthShell label="Sign Up" title="Create your opportunity account" text="Tangira kubaka profile, proof, trust score na opportunities zawe." action="Create Account" footerText="Usanzwe ufite account?" footerLink="/auth/login" footerLinkText="Login">
       <input placeholder="Full name" />
       <input placeholder="Email" type="email" />
       <input placeholder="Phone number" />
@@ -667,15 +723,7 @@ function SignupScreen() {
 
 function PhoneLoginScreen() {
   return (
-    <AuthShell
-      label="Phone Login"
-      title="Injira ukoresheje phone"
-      text="Tuzakoherereza OTP code yo kugenzura phone yawe."
-      action="Send OTP"
-      footerText="Ufite email?"
-      footerLink="/auth/login"
-      footerLinkText="Use email login"
-    >
+    <AuthShell label="Phone Login" title="Injira ukoresheje phone" text="Tuzakoherereza OTP code yo kugenzura phone yawe." action="Send OTP" footerText="Ufite email?" footerLink="/auth/login" footerLinkText="Use email login">
       <input placeholder="+250 7XX XXX XXX" />
     </AuthShell>
   )
@@ -683,15 +731,7 @@ function PhoneLoginScreen() {
 
 function OtpScreen() {
   return (
-    <AuthShell
-      label="OTP"
-      title="Verify your phone"
-      text="Andika code wakiriye kuri phone yawe."
-      action="Verify OTP"
-      footerText="Ntiwabonye code?"
-      footerLink="/auth/phone"
-      footerLinkText="Resend"
-    >
+    <AuthShell label="OTP" title="Verify your phone" text="Andika code wakiriye kuri phone yawe." action="Verify OTP" footerText="Ntiwabonye code?" footerLink="/auth/phone" footerLinkText="Resend">
       <div className="otp-row">
         <input maxLength="1" placeholder="0" />
         <input maxLength="1" placeholder="0" />
@@ -706,15 +746,7 @@ function OtpScreen() {
 
 function ForgotPasswordScreen() {
   return (
-    <AuthShell
-      label="Forgot Password"
-      title="Reset password"
-      text="Shyiramo email cyangwa phone, tukohereze reset instructions."
-      action="Send Reset Link"
-      footerText="Wibutse password?"
-      footerLink="/auth/login"
-      footerLinkText="Back to login"
-    >
+    <AuthShell label="Forgot Password" title="Reset password" text="Shyiramo email cyangwa phone, tukohereze reset instructions." action="Send Reset Link" footerText="Wibutse password?" footerLink="/auth/login" footerLinkText="Back to login">
       <input placeholder="Email or phone" />
     </AuthShell>
   )
@@ -734,181 +766,77 @@ function AuthSuccessScreen() {
   )
 }
 
-function AuthShell({ label, title, text, action, footerText, footerLink, footerLinkText, children }) {
-  return (
-    <section className="auth-layout">
-      <div className="auth-panel">
-        <span className="eyebrow">{label}</span>
-        <h2>{title}</h2>
-        <p>{text}</p>
-
-        <div className="auth-form">
-          {children}
-          <NavLink to="/auth/success" className="primary-button">
-            {action}
-            <ChevronRight size={18} />
-          </NavLink>
-        </div>
-
-        <p className="auth-footer">
-          {footerText} <NavLink to={footerLink}>{footerLinkText}</NavLink>
-        </p>
-      </div>
-
-      <div className="auth-side-card">
-        <Sparkles size={28} />
-        <h3>Why UBWENGE Buzima?</h3>
-        <p>
-          Build profile, upload proof, get matches, message clients, complete tasks,
-          receive reviews and grow trust score.
-        </p>
-        <div className="pill-row">
-          <span>Skills</span>
-          <span>Proof</span>
-          <span>Trust</span>
-          <span>Income</span>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function OnboardingWelcomeScreen() {
   return (
     <section className="panel">
-      <PanelHeader
-        label="Onboarding"
-        title="Ntibe form ndende, ibe ikiganiro"
-        text="Onboarding ifasha platform kumenya umuntu: identity, goal, assets, proof na first action."
-      />
+      <PanelHeader label="Onboarding" title="Ntibe form ndende, ibe ikiganiro" text="Onboarding imenya identity, goal, assets, proof na first action." />
       <OnboardingProgress current={1} />
       <div className="three-grid">
         <LinkCard to="/onboarding/identity" icon={User} title="Start Identity" text="Izina, location, phone/email na language." />
-        <LinkCard to="/onboarding/goal" icon={Target} title="Choose Goal" text="Akazi, clients, services, partner, learning or money path." />
+        <LinkCard to="/onboarding/goal" icon={Target} title="Choose Goal" text="Akazi, clients, services, learning or opportunity." />
         <LinkCard to="/onboarding/first-action" icon={Zap} title="Get First Action" text="Platform iguhe ikintu gifatika cyo gukora." />
       </div>
     </section>
   )
 }
 
-function OnboardingIdentityScreen() {
-  return (
-    <OnboardingStep
-      current={2}
-      label="Identity"
-      title="Tubwire uwo uri we"
-      text="Iyi ntambwe ifasha profile yawe gutangira kuba economic identity."
-      next="/onboarding/goal"
-    >
-      <input placeholder="Full name" defaultValue="Aline Mukamana" />
-      <input placeholder="Location" defaultValue="Kigali" />
-      <input placeholder="Phone or email" defaultValue="donaacademy42@gmail.com" />
-      <select>
-        <option>Kinyarwanda</option>
-        <option>English</option>
-        <option>French</option>
-      </select>
-    </OnboardingStep>
-  )
-}
+function OnboardingStepScreen({ step }) {
+  const nextMap = {
+    Identity: '/onboarding/goal',
+    Goal: '/onboarding/assets',
+    Assets: '/onboarding/proof',
+    Proof: '/onboarding/first-action',
+  }
 
-function OnboardingGoalScreen() {
-  return (
-    <OnboardingStep
-      current={3}
-      label="Goal"
-      title="Uyu munsi winjiye ushaka iki?"
-      text="Iyo platform imenye goal, igabanya ibintu byinshi ikakwereka ibikureba."
-      next="/onboarding/assets"
-    >
-      <select>
-        <option>Ndashaka akazi</option>
-        <option>Ndashaka clients</option>
-        <option>Ndashaka service</option>
-        <option>Ndashaka partner</option>
-        <option>Ndashaka kwiga skill inyinjiriza</option>
-        <option>Sinzi icyo natanga, mfasha kumenya</option>
-      </select>
-      <select>
-        <option>Experience level</option>
-        <option>Beginner</option>
-        <option>Intermediate</option>
-        <option>Experienced</option>
-      </select>
-    </OnboardingStep>
-  )
-}
+  const currentMap = {
+    Identity: 2,
+    Goal: 3,
+    Assets: 4,
+    Proof: 5,
+  }
 
-function OnboardingAssetsScreen() {
   return (
-    <OnboardingStep
-      current={4}
-      label="Assets"
-      title="Ufite iki watangiriraho?"
-      text="Assets si amafaranga gusa. Phone, time, network, skill, place, tools byose ni assets."
-      next="/onboarding/proof"
-    >
-      <select><option>Ufite phone?</option><option>Yego</option><option>Oya</option></select>
-      <select><option>Ufite internet?</option><option>Yego</option><option>Rimwe na rimwe</option></select>
-      <select><option>Uzi gufata amafoto/video?</option><option>Yego</option><option>Ndabyiga</option></select>
-      <select><option>Ufite network?</option><option>Yego</option><option>Oya</option></select>
-      <select><option>Ufite tools?</option><option>Phone only</option><option>Laptop</option><option>Transport</option></select>
-      <select><option>Time availability</option><option>Full-time</option><option>Part-time</option><option>Weekends</option></select>
-    </OnboardingStep>
-  )
-}
-
-function OnboardingProofScreen() {
-  return (
-    <OnboardingStep
-      current={5}
-      label="Proof"
-      title="Ufite ikimenyetso cy’ibyo ushoboye?"
-      text="Proof ishobora kuba video, photos, reviews, certificate cyangwa portfolio."
-      next="/onboarding/first-action"
-    >
-      <input placeholder="Intro video link" />
-      <input placeholder="Proof video link" />
-      <select>
-        <option>Proof type</option>
-        <option>Skill demonstration</option>
-        <option>Before/after</option>
-        <option>Client testimonial</option>
-        <option>No proof yet</option>
-      </select>
-      <select>
-        <option>Related service</option>
-        <option>Short videos</option>
-        <option>WhatsApp Business setup</option>
-        <option>Welding</option>
-        <option>Cleaning</option>
-      </select>
-    </OnboardingStep>
+    <section className="panel">
+      <PanelHeader label={step} title={`${step} information`} text="Iyi ni onboarding mock screen izahuzwa na database nyuma." />
+      <OnboardingProgress current={currentMap[step] || 2} />
+      <div className="form-grid">
+        <input placeholder={`${step} field 1`} />
+        <input placeholder={`${step} field 2`} />
+        <select>
+          <option>{step} option</option>
+          <option>Yego</option>
+          <option>Oya</option>
+        </select>
+        <select>
+          <option>Experience level</option>
+          <option>Beginner</option>
+          <option>Intermediate</option>
+          <option>Experienced</option>
+        </select>
+      </div>
+      <NavLink to={nextMap[step] || '/onboarding/first-action'} className="primary-button top-space">
+        Continue
+        <ChevronRight size={18} />
+      </NavLink>
+    </section>
   )
 }
 
 function OnboardingFirstActionScreen() {
   return (
     <section className="panel">
-      <PanelHeader
-        label="First Action"
-        title="Dore intambwe yawe ya mbere"
-        text="Onboarding ntigomba kurangira umuntu yuzuje form gusa; agomba guhita abona icyo gukora."
-      />
+      <PanelHeader label="First Action" title="Dore intambwe yawe ya mbere" text="Onboarding irangira user abonye igikorwa nyacyo." />
       <OnboardingProgress current={6} />
-
       <div className="three-grid">
         <LinkCard to="/profile/edit" icon={User} title="Complete Profile" text="Shyiraho bio, skills, location na price range." />
         <LinkCard to="/proof-videos/add" icon={PlayCircle} title="Add Proof Video" text="Shyiraho link ya TikTok, YouTube cyangwa Instagram." />
         <LinkCard to="/offers/create" icon={BriefcaseBusiness} title="Create First Offer" text="Hindura skill yawe service client yumva." />
       </div>
-
       <div className="result-box">
         <span className="eyebrow">AI Recommendation</span>
         <h3>Recommended path: Proof Video Helper</h3>
         <p>Ufite phone, ushobora gufata video, kandi ushobora gufasha business nto kugaragaza ibyo zikora.</p>
       </div>
-
       <NavLink to="/onboarding/complete" className="primary-button top-space">Complete Onboarding</NavLink>
     </section>
   )
@@ -931,23 +859,8 @@ function OnboardingCompleteScreen() {
   )
 }
 
-function OnboardingStep({ current, label, title, text, next, children }) {
-  return (
-    <section className="panel">
-      <PanelHeader label={label} title={title} text={text} />
-      <OnboardingProgress current={current} />
-      <div className="form-grid">{children}</div>
-      <NavLink to={next} className="primary-button top-space">
-        Continue
-        <ChevronRight size={18} />
-      </NavLink>
-    </section>
-  )
-}
-
 function OnboardingProgress({ current }) {
   const steps = ['Welcome', 'Identity', 'Goal', 'Assets', 'Proof', 'First Action', 'Complete']
-
   return (
     <div className="onboarding-progress">
       {steps.map((step, index) => (
@@ -1528,13 +1441,212 @@ function DeleteAccountScreen() {
   )
 }
 
+function BackendOverviewScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader
+        label="Backend Ready"
+        title="UBWENGE Buzima iriteguye database na backend"
+        text="Iyi screen isobanura uko frontend izahuzwa na database, APIs, authentication, AI matching, tasks, reviews na admin analytics."
+      />
+
+      <div className="backend-map">
+        <div className="backend-success">
+          <strong>Frontend foundation ready</strong>
+          <p>Routes, screens, mock data, forms, dashboard, marketplace workflow na onboarding birahari.</p>
+        </div>
+
+        <div className="backend-warning">
+          <strong>Next step</strong>
+          <p>Phase 9 izatangira local mock data store; nyuma tuzashyiramo real backend nka Supabase, Firebase cyangwa custom API.</p>
+        </div>
+      </div>
+
+      <div className="three-grid top-space">
+        <LinkCard to="/backend/database" icon={Database} title="Database Schema" text="Tables and relationships." />
+        <LinkCard to="/backend/api" icon={Link2} title="API Routes" text="Endpoints for backend." />
+        <LinkCard to="/backend/flows" icon={RouteIcon} title="Data Flows" text="User, marketplace and task flows." />
+      </div>
+    </section>
+  )
+}
+
+function BackendDatabaseScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader label="Database Schema" title="Tables zizakenerwa muri backend" />
+      <div className="database-grid">
+        {databaseTables.map((table) => (
+          <article className="database-table-card" key={table.name}>
+            <h3>{table.name}</h3>
+            <ul>
+              {table.fields.map((field) => <li key={field}>{field}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+  )
+}
+
+function BackendFlowsScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader
+        label="Data Flows"
+        title="Uko data izagenda muri platform"
+        text="Izi flows ni zo zizahuzwa na backend: user onboarding, marketplace matching, task completion, reviews na trust score."
+      />
+
+      <div className="flow-grid">
+        <FlowCard
+          number="1"
+          title="User Onboarding Flow"
+          items={[
+            'User creates account',
+            'User adds identity, goal and assets',
+            'User uploads proof',
+            'System creates profile',
+            'AI recommends first action',
+          ]}
+        />
+
+        <FlowCard
+          number="2"
+          title="Marketplace Flow"
+          items={[
+            'Client posts need',
+            'Provider creates offer',
+            'Matching engine compares category, location, budget and proof',
+            'User sees match reasons',
+            'Conversation starts',
+          ]}
+        />
+
+        <FlowCard
+          number="3"
+          title="Task Completion Flow"
+          items={[
+            'Request is created',
+            'Provider accepts',
+            'Task moves to in progress',
+            'Client confirms completion',
+            'Review is requested',
+          ]}
+        />
+
+        <FlowCard
+          number="4"
+          title="Trust Score Flow"
+          items={[
+            'Profile completeness is calculated',
+            'Proof videos add score',
+            'Completed tasks add score',
+            'Reviews add reputation',
+            'Reports reduce trust',
+          ]}
+        />
+
+        <FlowCard
+          number="5"
+          title="AI Assistant Flow"
+          items={[
+            'User asks AI question',
+            'AI reads profile context',
+            'AI generates bio, offer, script or message',
+            'User saves output',
+            'Saved output can improve onboarding and profile',
+          ]}
+        />
+      </div>
+    </section>
+  )
+}
+
+function BackendRoadmapScreen() {
+  const roadmap = [
+    {
+      title: 'Local mock data store',
+      text: 'Store mock users, profiles, needs, offers, tasks and messages in frontend state.',
+      status: 'Phase 9',
+    },
+    {
+      title: 'Authentication backend',
+      text: 'Add real login, signup, phone verification, sessions and protected routes.',
+      status: 'Phase 10',
+    },
+    {
+      title: 'Database integration',
+      text: 'Connect users, profiles, proofs, needs, offers, messages, tasks and reviews to real database.',
+      status: 'Phase 11',
+    },
+    {
+      title: 'AI matching engine',
+      text: 'Move matching score logic from UI into backend/API layer.',
+      status: 'Phase 12',
+    },
+    {
+      title: 'Admin moderation',
+      text: 'Add report review, proof approval, user verification and platform health tools.',
+      status: 'Phase 13',
+    },
+    {
+      title: 'Payments and monetization',
+      text: 'Add featured profiles, premium AI, subscriptions, business accounts and later commission.',
+      status: 'Phase 14',
+    },
+  ]
+
+  return (
+    <section className="panel">
+      <PanelHeader
+        label="Backend Roadmap"
+        title="Uko tuzava kuri frontend MVP tukajya kuri real platform"
+        text="Iyi roadmap izatuma UBWENGE Buzima itava ku website gusa, ahubwo ikajya kuri platform ifite users nyabo, database, AI na admin control."
+      />
+
+      <div className="backend-roadmap">
+        {roadmap.map((item, index) => (
+          <article className="backend-roadmap-step" key={item.title}>
+            <span>{index + 1}</span>
+            <div>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+            <small>{item.status}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function FlowCard({ number, title, items }) {
+  return (
+    <article className="flow-card">
+      <span>{number}</span>
+      <div>
+        <h3>{title}</h3>
+        <ul>
+          {items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </div>
+    </article>
+  )
+}
+
 function StatsRow() {
   return (
     <section className="stats-grid wide">
-      <StatCard value="80+" label="Routed Screens" />
-      <StatCard value="Auth" label="Login/Signup Mock" />
-      <StatCard value="7" label="Onboarding Steps" />
-      <StatCard value="AI" label="Opportunity Advisor" />
+      <StatCard value="90+" label="Routed Screens" />
+      <StatCard value="DB" label="Backend Blueprint" />
+      <StatCard value="API" label="Routes Planned" />
+      <StatCard value="AI" label="Matching Ready" />
     </section>
   )
 }
@@ -1552,7 +1664,9 @@ function PanelHeader({ label, title, text }) {
 function LinkCard({ to, icon: Icon, title, text }) {
   return (
     <NavLink to={to} className="action-card">
-      <div className="module-icon"><Icon size={22} /></div>
+      <div className="module-icon">
+        <Icon size={22} />
+      </div>
       <h3>{title}</h3>
       <p>{text}</p>
     </NavLink>
@@ -1560,11 +1674,21 @@ function LinkCard({ to, icon: Icon, title, text }) {
 }
 
 function SmallCard({ title, text }) {
-  return <article className="small-card"><h3>{title}</h3><p>{text}</p></article>
+  return (
+    <article className="small-card">
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </article>
+  )
 }
 
 function StatCard({ value, label }) {
-  return <div className="stat-card"><strong>{value}</strong><span>{label}</span></div>
+  return (
+    <div className="stat-card">
+      <strong>{value}</strong>
+      <span>{label}</span>
+    </div>
+  )
 }
 
 function ProfileCard({ profile }) {
@@ -1572,10 +1696,19 @@ function ProfileCard({ profile }) {
     <article className="market-card">
       <div className="avatar">{profile.initials}</div>
       <h3>{profile.name}</h3>
-      <p>{profile.role} • {profile.location}</p>
-      <div className="pill-row"><span>Trust {profile.trust}</span><span>{profile.proofs} proofs</span><span>{profile.rating} stars</span></div>
-      <button className="secondary-button"><Eye size={17} /> View Profile</button> 
-          </article>
+      <p>
+        {profile.role} • {profile.location}
+      </p>
+      <div className="pill-row">
+        <span>Trust {profile.trust}</span>
+        <span>{profile.proofs} proofs</span>
+        <span>{profile.rating} stars</span>
+      </div>
+      <button className="secondary-button">
+        <Eye size={17} />
+        View Profile
+      </button>
+    </article>
   )
 }
 
@@ -1588,7 +1721,9 @@ function ProofGrid() {
             <PlayCircle size={34} />
           </div>
           <h3>{proof.title}</h3>
-          <p>{proof.source} • {proof.type} • {proof.service}</p>
+          <p>
+            {proof.source} • {proof.type} • {proof.service}
+          </p>
           <div className="pill-row">
             <span>Score {proof.score}/100</span>
             <span>{proof.status}</span>
@@ -1606,7 +1741,9 @@ function NeedGrid() {
         <article className="data-card" key={need.title}>
           <div>
             <h3>{need.title}</h3>
-            <p>{need.category} • {need.location}</p>
+            <p>
+              {need.category} • {need.location}
+            </p>
           </div>
           <div className="pill-row">
             <span>{need.budget}</span>
@@ -1625,7 +1762,9 @@ function OfferGrid() {
         <article className="data-card" key={offer.title}>
           <div>
             <h3>{offer.title}</h3>
-            <p>{offer.category} • {offer.location}</p>
+            <p>
+              {offer.category} • {offer.location}
+            </p>
           </div>
           <div className="pill-row">
             <span>{offer.price}</span>
