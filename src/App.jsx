@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   BrowserRouter,
   NavLink,
@@ -25,13 +25,14 @@ import {
   KeyRound,
   LayoutDashboard,
   Link2,
-  Lock,
   LogIn,
   Menu,
   MessageCircle,
   PlayCircle,
   Plus,
+  RefreshCcw,
   Route as RouteIcon,
+  Save,
   Search,
   Settings,
   ShieldCheck,
@@ -71,6 +72,7 @@ const mainNav = [
   { to: '/admin', label: 'Admin', icon: LayoutDashboard },
   { to: '/settings', label: 'Settings', icon: Settings },
   { to: '/backend', label: 'Backend Ready', icon: Database },
+  { to: '/local-store', label: 'Local Store', icon: Save },
 ]
 
 const authSubNav = [
@@ -241,43 +243,39 @@ const paths = [
   'Sinzi icyo natanga, mfasha kumenya',
 ]
 
-const profiles = [
+const initialProfiles = [
   { name: 'Aline Mukamana', initials: 'AM', role: 'Short Video Creator', location: 'Kigali', trust: 78, proofs: 3, rating: 4.8 },
   { name: 'Eric Niyonzima', initials: 'EN', role: 'Welding Specialist', location: 'Huye', trust: 84, proofs: 5, rating: 4.9 },
   { name: 'Claudine Uwase', initials: 'CU', role: 'WhatsApp Business Helper', location: 'Musanze', trust: 69, proofs: 2, rating: 4.6 },
 ]
 
-const proofs = [
+const initialProofs = [
   { title: 'Restaurant short video sample', source: 'TikTok', type: 'Skill demonstration', score: 86, status: 'Approved', service: 'Short videos' },
   { title: 'Salon before/after promo', source: 'Instagram', type: 'Before/after', score: 74, status: 'Pending', service: 'Social media content' },
   { title: 'Client testimonial for welding', source: 'YouTube', type: 'Client testimonial', score: 91, status: 'Verified', service: 'Welding' },
 ]
 
-const needs = [
+const initialNeeds = [
   { title: 'Nkeneye umuntu ukora videos za restaurant', category: 'Digital services', location: 'Kigali', budget: '50,000 RWF', urgency: 'Within 1 week' },
   { title: 'Nkeneye cleaning ya office', category: 'Cleaning', location: 'Kicukiro', budget: '30,000 RWF', urgency: 'Tomorrow' },
   { title: 'Nkeneye tutor wa English', category: 'Tutoring', location: 'Remera', budget: '80,000 RWF/month', urgency: 'This week' },
 ]
 
-const offers = [
+const initialOffers = [
   { title: 'Nkora short videos za business nto', category: 'Digital services', location: 'Kigali', price: '10,000 - 50,000 RWF', proof: '3 videos' },
   { title: 'WhatsApp Business setup helper', category: 'Small business support', location: 'Online / Kigali', price: '5,000 - 30,000 RWF', proof: '2 demos' },
   { title: 'Welding ya gates, windows na doors', category: 'Welding', location: 'Huye', price: 'Project based', proof: '5 samples' },
 ]
 
-const matches = [
-  { title: 'Restaurant Kigali ↔ Aline Mukamana', score: 92, type: 'Need to provider', reason: 'Category, location, proof video, availability and budget match.' },
-  { title: 'Shop owner ↔ WhatsApp Business Helper', score: 86, type: 'Business support', reason: 'Service matches need, online delivery available, price is within budget.' },
-  { title: 'Huye construction client ↔ Eric Welding', score: 89, type: 'Local service', reason: 'Location and welding proof videos match the client need.' },
+const initialTasks = [
+  { title: 'Create 5 short videos for restaurant', status: 'In progress', client: 'Restaurant Kigali', budget: '50,000 RWF' },
+  { title: 'Setup WhatsApp Business catalog', status: 'Requested', client: 'Shop Owner', budget: '20,000 RWF' },
+  { title: 'Review project details', status: 'Accepted', client: 'Aline Mukamana', budget: 'Pending' },
+  { title: 'Welding gate repair', status: 'Completed', client: 'Huye Client', budget: 'Project based' },
+  { title: 'Late delivery discussion', status: 'Disputed', client: 'Salon Client', budget: '30,000 RWF' },
 ]
 
-const feedItems = [
-  { title: 'Restaurant i Kigali irashaka umuntu ukora short videos', meta: 'Budget: 50,000 RWF • Proof required • Within 1 week', action: 'Apply' },
-  { title: 'Ufite phone gusa? Tangira nka Proof Video Helper', meta: 'Step 1: Shaka artisan 1 • Step 2: Mufashe gukora video', action: 'Start path' },
-  { title: 'Shop owner arashaka WhatsApp Business catalog', meta: 'Small business support • Online • 20,000 RWF', action: 'Offer help' },
-]
-
-const reviews = [
+const initialReviews = [
   { from: 'Restaurant Kigali', rating: 5, comment: 'Aline yakoze videos nziza kandi azitanga ku gihe.' },
   { from: 'Salon Client', rating: 4.8, comment: 'Proof video ye ni yo yatumye tumwizera mbere yo kumwandikira.' },
   { from: 'Shop Owner', rating: 5, comment: 'Yadufashije gushyira products kuri WhatsApp Business neza.' },
@@ -291,29 +289,16 @@ const notifications = [
   { type: 'system', title: 'New marketplace category added: Small Business Support.', unread: false },
 ]
 
-const tasks = [
-  { title: 'Create 5 short videos for restaurant', status: 'In progress', client: 'Restaurant Kigali', budget: '50,000 RWF' },
-  { title: 'Setup WhatsApp Business catalog', status: 'Requested', client: 'Shop Owner', budget: '20,000 RWF' },
-  { title: 'Review project details', status: 'Accepted', client: 'Aline Mukamana', budget: 'Pending' },
-  { title: 'Welding gate repair', status: 'Completed', client: 'Huye Client', budget: 'Project based' },
-  { title: 'Late delivery discussion', status: 'Disputed', client: 'Salon Client', budget: '30,000 RWF' },
+const feedItems = [
+  { title: 'Restaurant i Kigali irashaka umuntu ukora short videos', meta: 'Budget: 50,000 RWF • Proof required • Within 1 week', action: 'Apply' },
+  { title: 'Ufite phone gusa? Tangira nka Proof Video Helper', meta: 'Step 1: Shaka artisan 1 • Step 2: Mufashe gukora video', action: 'Start path' },
+  { title: 'Shop owner arashaka WhatsApp Business catalog', meta: 'Small business support • Online • 20,000 RWF', action: 'Offer help' },
 ]
 
 const learningPaths = [
   { title: 'WhatsApp Business Setup Helper', lessons: 4, demand: 'High demand', result: 'Help shops create online catalog' },
   { title: 'Proof Video Helper', lessons: 5, demand: 'High demand', result: 'Help artisans show real work' },
   { title: 'Local Opportunity Connector', lessons: 3, demand: 'Growing demand', result: 'Connect needs with providers' },
-]
-
-const adminStats = [
-  { value: '128', label: 'Users' },
-  { value: '74', label: 'Profiles' },
-  { value: '213', label: 'Proof Videos' },
-  { value: '46', label: 'Needs' },
-  { value: '59', label: 'Offers' },
-  { value: '301', label: 'Matches' },
-  { value: '12', label: 'Reports' },
-  { value: '0 RWF', label: 'Revenue MVP' },
 ]
 
 const databaseTables = [
@@ -339,15 +324,80 @@ const apiRoutes = [
   { method: 'DELETE', path: '/api/account', text: 'Delete user account with confirmation.' },
 ]
 
+function loadLocalData(key, fallback) {
+  try {
+    const stored = localStorage.getItem(key)
+    return stored ? JSON.parse(stored) : fallback
+  } catch {
+    return fallback
+  }
+}
+
 function App() {
+  const [profiles, setProfiles] = useState(() => loadLocalData('ub_profiles', initialProfiles))
+  const [proofs, setProofs] = useState(() => loadLocalData('ub_proofs', initialProofs))
+  const [needs, setNeeds] = useState(() => loadLocalData('ub_needs', initialNeeds))
+  const [offers, setOffers] = useState(() => loadLocalData('ub_offers', initialOffers))
+  const [tasks, setTasks] = useState(() => loadLocalData('ub_tasks', initialTasks))
+  const [reviews, setReviews] = useState(() => loadLocalData('ub_reviews', initialReviews))
+
+  useEffect(() => localStorage.setItem('ub_profiles', JSON.stringify(profiles)), [profiles])
+  useEffect(() => localStorage.setItem('ub_proofs', JSON.stringify(proofs)), [proofs])
+  useEffect(() => localStorage.setItem('ub_needs', JSON.stringify(needs)), [needs])
+  useEffect(() => localStorage.setItem('ub_offers', JSON.stringify(offers)), [offers])
+  useEffect(() => localStorage.setItem('ub_tasks', JSON.stringify(tasks)), [tasks])
+  useEffect(() => localStorage.setItem('ub_reviews', JSON.stringify(reviews)), [reviews])
+
+  const matches = useMemo(() => {
+    return needs.slice(0, 3).map((need, index) => {
+      const profile = profiles[index % profiles.length]
+      return {
+        title: `${need.title} ↔ ${profile.name}`,
+        score: 92 - index * 5,
+        type: 'Need to provider',
+        reason: 'Category, location, proof video, availability and budget match.',
+      }
+    })
+  }, [needs, profiles])
+
+  const store = {
+    profiles,
+    setProfiles,
+    proofs,
+    setProofs,
+    needs,
+    setNeeds,
+    offers,
+    setOffers,
+    tasks,
+    setTasks,
+    reviews,
+    setReviews,
+    matches,
+    resetDemoData: () => {
+      setProfiles(initialProfiles)
+      setProofs(initialProofs)
+      setNeeds(initialNeeds)
+      setOffers(initialOffers)
+      setTasks(initialTasks)
+      setReviews(initialReviews)
+      localStorage.removeItem('ub_profiles')
+      localStorage.removeItem('ub_proofs')
+      localStorage.removeItem('ub_needs')
+      localStorage.removeItem('ub_offers')
+      localStorage.removeItem('ub_tasks')
+      localStorage.removeItem('ub_reviews')
+    },
+  }
+
   return (
     <BrowserRouter>
-      <Shell />
+      <Shell store={store} />
     </BrowserRouter>
   )
 }
 
-function Shell() {
+function Shell({ store }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
 
@@ -378,7 +428,12 @@ function Shell() {
           {mainNav.map((item) => {
             const Icon = item.icon
             return (
-              <NavLink key={item.to} to={item.to} end={item.to === '/'} onClick={() => setSidebarOpen(false)}>
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === '/'}
+                onClick={() => setSidebarOpen(false)}
+              >
                 <Icon size={18} />
                 <span>{item.label}</span>
               </NavLink>
@@ -388,8 +443,8 @@ function Shell() {
 
         <div className="sidebar-card">
           <Sparkles size={18} />
-          <strong>Phase 8</strong>
-          <p>Database-ready structure, API routes, backend flows and implementation roadmap.</p>
+          <strong>Phase 9</strong>
+          <p>Local mock data store, interactive forms, localStorage persistence and reset demo data.</p>
         </div>
       </aside>
 
@@ -400,7 +455,7 @@ function Shell() {
           </button>
 
           <div>
-            <p className="breadcrumb">UBWENGE Buzima / Phase 8</p>
+            <p className="breadcrumb">UBWENGE Buzima / Phase 9</p>
             <h1>{pageTitle}</h1>
           </div>
 
@@ -409,15 +464,15 @@ function Shell() {
               <Search size={17} />
               <span>Search</span>
             </button>
-            <NavLink to="/ai-assistant" className="primary-small">
-              <Bot size={17} />
-              Ask AI
+            <NavLink to="/local-store" className="primary-small">
+              <Save size={17} />
+              Local Store
             </NavLink>
           </div>
         </header>
 
         <Routes>
-          <Route path="/" element={<HomeScreen />} />
+          <Route path="/" element={<HomeScreen store={store} />} />
 
           <Route path="/auth" element={<ModuleLayout nav={authSubNav} />}>
             <Route index element={<Navigate to="/auth/login" replace />} />
@@ -442,53 +497,62 @@ function Shell() {
           <Route path="/choose-path" element={<ChoosePathScreen />} />
 
           <Route path="/profile" element={<ModuleLayout nav={profileSubNav} />}>
-            <Route index element={<MyProfileScreen />} />
-            <Route path="public" element={<PublicProfileScreen />} />
+            <Route index element={<MyProfileScreen store={store} />} />
+            <Route path="public" element={<PublicProfileScreen store={store} />} />
             <Route path="edit" element={<EditProfileScreen />} />
-            <Route path="proof" element={<ProofHomeScreen />} />
-            <Route path="reviews" element={<ReviewsScreen />} />
+            <Route path="proof" element={<ProofHomeScreen store={store} />} />
+            <Route path="reviews" element={<ReviewsScreen store={store} />} />
             <Route path="analytics" element={<StatsScreen title="Profile Analytics" />} />
           </Route>
 
           <Route path="/proof-videos" element={<ModuleLayout nav={proofSubNav} />}>
-            <Route index element={<ProofHomeScreen />} />
-            <Route path="add" element={<AddProofScreen />} />
+            <Route index element={<ProofHomeScreen store={store} />} />
+            <Route path="add" element={<AddProofScreen store={store} />} />
             <Route path="score" element={<ProofScoreScreen />} />
-            <Route path="verification" element={<ProofHomeScreen />} />
+            <Route path="verification" element={<ProofHomeScreen store={store} />} />
             <Route path="tips" element={<ProofTipsScreen />} />
           </Route>
 
           <Route path="/needs" element={<ModuleLayout nav={needsSubNav} />}>
-            <Route index element={<NeedsHomeScreen />} />
-            <Route path="post" element={<PostNeedScreen />} />
-            <Route path="matches" element={<MatchListScreen />} />
-            <Route path="applications" element={<SimpleList title="Applications" items={['Aline applied to restaurant videos', 'Claudine applied to WhatsApp setup']} />} />
-            <Route path="closed" element={<SimpleList title="Closed Needs" items={['Restaurant videos completed', 'Office cleaning completed']} />} />
+            <Route index element={<NeedsHomeScreen store={store} />} />
+            <Route path="post" element={<PostNeedScreen store={store} />} />
+            <Route path="matches" element={<MatchListScreen store={store} />} />
+            <Route
+              path="applications"
+              element={<SimpleList title="Applications" items={['Aline applied to restaurant videos', 'Claudine applied to WhatsApp setup']} />}
+            />
+            <Route
+              path="closed"
+              element={<SimpleList title="Closed Needs" items={['Restaurant videos completed', 'Office cleaning completed']} />}
+            />
           </Route>
 
           <Route path="/offers" element={<ModuleLayout nav={offersSubNav} />}>
-            <Route index element={<OffersHomeScreen />} />
-            <Route path="create" element={<CreateOfferScreen />} />
-            <Route path="requests" element={<SimpleList title="Offer Requests" items={['Restaurant requested short videos', 'Shop requested WhatsApp setup']} />} />
+            <Route index element={<OffersHomeScreen store={store} />} />
+            <Route path="create" element={<CreateOfferScreen store={store} />} />
+            <Route
+              path="requests"
+              element={<SimpleList title="Offer Requests" items={['Restaurant requested short videos', 'Shop requested WhatsApp setup']} />}
+            />
             <Route path="analytics" element={<StatsScreen title="Offer Analytics" />} />
-            <Route path="featured" element={<OffersHomeScreen />} />
+            <Route path="featured" element={<OffersHomeScreen store={store} />} />
           </Route>
 
           <Route path="/marketplace" element={<ModuleLayout nav={marketplaceSubNav} />}>
             <Route index element={<MarketplaceExploreScreen />} />
-            <Route path="services" element={<OffersHomeScreen />} />
-            <Route path="jobs" element={<NeedsHomeScreen />} />
-            <Route path="people" element={<PeopleScreen />} />
-            <Route path="needs" element={<NeedsHomeScreen />} />
-            <Route path="offers" element={<OffersHomeScreen />} />
+            <Route path="services" element={<OffersHomeScreen store={store} />} />
+            <Route path="jobs" element={<NeedsHomeScreen store={store} />} />
+            <Route path="people" element={<PeopleScreen store={store} />} />
+            <Route path="needs" element={<NeedsHomeScreen store={store} />} />
+            <Route path="offers" element={<OffersHomeScreen store={store} />} />
             <Route path="saved" element={<SimpleList title="Saved Items" items={['Aline profile', 'Restaurant need', 'Proof video sample']} />} />
           </Route>
 
           <Route path="/matching" element={<ModuleLayout nav={matchingSubNav} />}>
-            <Route index element={<MatchListScreen />} />
-            <Route path="people" element={<PeopleScreen />} />
-            <Route path="jobs" element={<NeedsHomeScreen />} />
-            <Route path="services" element={<OffersHomeScreen />} />
+            <Route index element={<MatchListScreen store={store} />} />
+            <Route path="people" element={<PeopleScreen store={store} />} />
+            <Route path="jobs" element={<NeedsHomeScreen store={store} />} />
+            <Route path="services" element={<OffersHomeScreen store={store} />} />
             <Route path="reasons" element={<MatchReasonsScreen />} />
             <Route path="improve" element={<ChecklistScreen title="Improve Matches" />} />
           </Route>
@@ -496,7 +560,10 @@ function Shell() {
           <Route path="/messages" element={<ModuleLayout nav={messageSubNav} />}>
             <Route index element={<MessagesInboxScreen />} />
             <Route path="chat" element={<ChatScreen />} />
-            <Route path="requests" element={<SimpleList title="Message Requests" items={['Restaurant Kigali wants videos', 'Shop owner wants WhatsApp setup']} />} />
+            <Route
+              path="requests"
+              element={<SimpleList title="Message Requests" items={['Restaurant Kigali wants videos', 'Shop owner wants WhatsApp setup']} />}
+            />
             <Route path="templates" element={<MessageTemplatesScreen />} />
             <Route path="archived" element={<EmptyScreen title="No archived chats yet" icon={FileText} />} />
           </Route>
@@ -512,16 +579,16 @@ function Shell() {
           </Route>
 
           <Route path="/feed" element={<OpportunityFeedScreen />} />
-          <Route path="/reviews" element={<ReviewsScreen />} />
+          <Route path="/reviews" element={<ReviewsScreen store={store} />} />
           <Route path="/trust-score" element={<TrustScoreScreen />} />
 
           <Route path="/tasks" element={<ModuleLayout nav={taskSubNav} />}>
-            <Route index element={<TasksHomeScreen />} />
-            <Route path="requested" element={<TasksByStatusScreen status="Requested" />} />
-            <Route path="accepted" element={<TasksByStatusScreen status="Accepted" />} />
-            <Route path="in-progress" element={<TasksByStatusScreen status="In progress" />} />
-            <Route path="completed" element={<TasksByStatusScreen status="Completed" />} />
-            <Route path="disputed" element={<TasksByStatusScreen status="Disputed" />} />
+            <Route index element={<TasksHomeScreen store={store} />} />
+            <Route path="requested" element={<TasksByStatusScreen status="Requested" store={store} />} />
+            <Route path="accepted" element={<TasksByStatusScreen status="Accepted" store={store} />} />
+            <Route path="in-progress" element={<TasksByStatusScreen status="In progress" store={store} />} />
+            <Route path="completed" element={<TasksByStatusScreen status="Completed" store={store} />} />
+            <Route path="disputed" element={<TasksByStatusScreen status="Disputed" store={store} />} />
           </Route>
 
           <Route path="/learning" element={<ModuleLayout nav={learningSubNav} />}>
@@ -553,7 +620,7 @@ function Shell() {
           </Route>
 
           <Route path="/admin" element={<ModuleLayout nav={adminSubNav} />}>
-            <Route index element={<AdminDashboardScreen />} />
+            <Route index element={<AdminDashboardScreen store={store} />} />
             <Route path="users" element={<AdminTableScreen title="Users" />} />
             <Route path="profiles" element={<AdminTableScreen title="Profiles" />} />
             <Route path="proof-videos" element={<AdminTableScreen title="Proof Videos" />} />
@@ -582,6 +649,8 @@ function Shell() {
             <Route path="roadmap" element={<BackendRoadmapScreen />} />
           </Route>
 
+          <Route path="/local-store" element={<LocalStoreScreen store={store} />} />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </section>
@@ -606,53 +675,53 @@ function ModuleLayout({ nav }) {
   )
 }
 
-function HomeScreen() {
+function HomeScreen({ store }) {
   return (
     <div className="screen-grid">
       <section className="hero-card wide">
         <div>
-          <span className="eyebrow">Phase 8 Complete</span>
+          <span className="eyebrow">Phase 9 Complete</span>
           <h2>Erekana icyo ushoboye. Hura n’abagukeneye. Hindura skills zawe amafaranga.</h2>
           <p>
-            UBWENGE Buzima ubu ifite database-ready blueprint: users, profiles, proof videos,
-            needs, offers, matches, messages, tasks, reviews, trust score, AI records na admin analytics.
+            UBWENGE Buzima ubu ifite local mock data store: Add Need, Create Offer, Add Proof,
+            Add Task, localStorage persistence na reset demo data.
           </p>
           <div className="button-row">
-            <NavLink className="primary-button" to="/backend">
-              Open Backend Blueprint
+            <NavLink className="primary-button" to="/local-store">
+              Open Local Store
               <ChevronRight size={18} />
             </NavLink>
-            <NavLink className="secondary-button" to="/backend/database">
-              View Database Schema
+            <NavLink className="secondary-button" to="/needs/post">
+              Post Need
             </NavLink>
           </div>
         </div>
 
         <div className="hero-mini-panel">
           <div>
-            <span>Phase 8</span>
-            <strong>Backend-ready</strong>
-            <p>Frontend iri gutegura database, APIs na backend flows.</p>
+            <span>Saved Locally</span>
+            <strong>{store.needs.length + store.offers.length + store.proofs.length + store.tasks.length} records</strong>
+            <p>Data persists in browser localStorage.</p>
           </div>
           <div>
             <span>Next</span>
-            <strong>Real data layer</strong>
-            <p>Phase 9 izatangira local data store na interactive mock actions.</p>
+            <strong>Interactive MVP</strong>
+            <p>Forms now create visible records without backend.</p>
           </div>
         </div>
       </section>
 
-      <StatsRow />
+      <StatsRow store={store} />
 
       <section className="panel wide">
-        <PanelHeader label="Phase 8 Modules" title="Database-ready structure + backend roadmap" />
+        <PanelHeader label="Phase 9 Modules" title="Interactive local mock data" />
         <div className="three-grid">
-          <LinkCard to="/backend/database" icon={Database} title="Database Schema" text="Users, profiles, proof videos, needs, offers, matches, tasks and reviews." />
-          <LinkCard to="/backend/api" icon={Link2} title="API Routes" text="REST-style routes ready for backend implementation." />
-          <LinkCard to="/backend/flows" icon={RouteIcon} title="Data Flows" text="User journey, marketplace flow, task flow and review loop." />
-          <LinkCard to="/backend/roadmap" icon={ClipboardList} title="Backend Roadmap" text="Steps from frontend MVP to real users and database." />
-          <LinkCard to="/admin" icon={LayoutDashboard} title="Admin Ready" text="Admin metrics connected conceptually to database tables." />
-          <LinkCard to="/ai-assistant" icon={Bot} title="AI Records" text="AI outputs can later be stored, reused and improved." />
+          <LinkCard to="/needs/post" icon={ClipboardList} title="Add Need" text="Create need and save it locally." />
+          <LinkCard to="/offers/create" icon={BriefcaseBusiness} title="Create Offer" text="Create offer and save it locally." />
+          <LinkCard to="/proof-videos/add" icon={PlayCircle} title="Add Proof" text="Add proof video link and save it locally." />
+          <LinkCard to="/tasks" icon={CheckCircle2} title="Tasks" text="Add and track local task workflow." />
+          <LinkCard to="/local-store" icon={Save} title="Local Store" text="View browser data and reset demo." />
+          <LinkCard to="/backend" icon={Database} title="Backend Next" text="Prepared to replace localStorage with real database." />
         </div>
       </section>
     </div>
@@ -764,12 +833,16 @@ function AuthSuccessScreen() {
       </div>
     </section>
   )
-}
+} 
 
 function OnboardingWelcomeScreen() {
   return (
     <section className="panel">
-      <PanelHeader label="Onboarding" title="Ntibe form ndende, ibe ikiganiro" text="Onboarding imenya identity, goal, assets, proof na first action." />
+      <PanelHeader
+        label="Onboarding"
+        title="Ntibe form ndende, ibe ikiganiro"
+        text="Onboarding imenya identity, goal, assets, proof na first action."
+      />
       <OnboardingProgress current={1} />
       <div className="three-grid">
         <LinkCard to="/onboarding/identity" icon={User} title="Start Identity" text="Izina, location, phone/email na language." />
@@ -827,16 +900,19 @@ function OnboardingFirstActionScreen() {
     <section className="panel">
       <PanelHeader label="First Action" title="Dore intambwe yawe ya mbere" text="Onboarding irangira user abonye igikorwa nyacyo." />
       <OnboardingProgress current={6} />
+
       <div className="three-grid">
         <LinkCard to="/profile/edit" icon={User} title="Complete Profile" text="Shyiraho bio, skills, location na price range." />
         <LinkCard to="/proof-videos/add" icon={PlayCircle} title="Add Proof Video" text="Shyiraho link ya TikTok, YouTube cyangwa Instagram." />
         <LinkCard to="/offers/create" icon={BriefcaseBusiness} title="Create First Offer" text="Hindura skill yawe service client yumva." />
       </div>
+
       <div className="result-box">
         <span className="eyebrow">AI Recommendation</span>
         <h3>Recommended path: Proof Video Helper</h3>
         <p>Ufite phone, ushobora gufata video, kandi ushobora gufasha business nto kugaragaza ibyo zikora.</p>
       </div>
+
       <NavLink to="/onboarding/complete" className="primary-button top-space">Complete Onboarding</NavLink>
     </section>
   )
@@ -861,6 +937,7 @@ function OnboardingCompleteScreen() {
 
 function OnboardingProgress({ current }) {
   const steps = ['Welcome', 'Identity', 'Goal', 'Assets', 'Proof', 'First Action', 'Complete']
+
   return (
     <div className="onboarding-progress">
       {steps.map((step, index) => (
@@ -875,6 +952,7 @@ function OnboardingProgress({ current }) {
 
 function ChoosePathScreen() {
   const [selected, setSelected] = useState('Sinzi icyo natanga, mfasha kumenya')
+
   return (
     <section className="panel">
       <PanelHeader label="Choose Your Path" title="Hitamo urugendo rwawe" />
@@ -895,7 +973,7 @@ function ChoosePathScreen() {
   )
 }
 
-function MyProfileScreen() {
+function MyProfileScreen({ store }) {
   return (
     <div className="screen-grid">
       <section className="profile-header wide">
@@ -906,30 +984,32 @@ function MyProfileScreen() {
           <p>Short Video Creator for Small Businesses • Kigali • Available this week</p>
           <div className="pill-row">
             <span>Trust 78/100</span>
-            <span>3 Proof Videos</span>
+            <span>{store.proofs.length} Proof Videos</span>
             <span>4.8 Rating</span>
             <span>10k - 50k RWF</span>
           </div>
         </div>
       </section>
+
       <section className="panel">
         <PanelHeader label="Profile Completion" title="82% complete" />
         <Progress value={82} />
         <Checklist items={['Add profile photo', 'Add intro video', 'Add 3 proof links', 'Create first offer', 'Ask for first review']} />
       </section>
+
       <section className="panel">
-        <PanelHeader label="Value Statement" title="Icyo mfasha abantu" />
-        <p>Mfasha restaurants, salons na shops gukora short videos zibafasha kugaragaza products zabo kuri social media.</p>
+        <PanelHeader label="Local Data" title="Stored in browser" />
+        <p>This demo uses localStorage. Needs, offers, proofs and tasks you add will stay after refresh.</p>
       </section>
     </div>
   )
 }
 
-function PublicProfileScreen() {
+function PublicProfileScreen({ store }) {
   return (
     <section className="panel">
       <PanelHeader label="Public Profile" title="Uko client azabona profile yawe" />
-      <PeopleScreen />
+      <PeopleScreen store={store} />
     </section>
   )
 }
@@ -954,26 +1034,65 @@ function EditProfileScreen() {
   )
 }
 
-function ProofHomeScreen() {
+function ProofHomeScreen({ store }) {
   return (
     <section className="panel">
-      <PanelHeader label="All Proof Videos" title="Proof links zose" />
-      <ProofGrid />
+      <PanelHeader label="All Proof Videos" title="Proof links zose" text={`${store.proofs.length} proof records saved locally.`} />
+      <ProofGrid proofs={store.proofs} />
     </section>
   )
 }
 
-function AddProofScreen() {
+function AddProofScreen({ store }) {
+  const [form, setForm] = useState({
+    title: '',
+    source: 'TikTok',
+    type: 'Skill demonstration',
+    service: 'Short videos',
+    status: 'Pending',
+    score: 70,
+  })
+
+  function update(field, value) {
+    setForm((current) => ({ ...current, [field]: value }))
+  }
+
+  function saveProof() {
+    if (!form.title.trim()) return
+    store.setProofs([{ ...form, score: Number(form.score) || 70 }, ...store.proofs])
+    setForm({ title: '', source: 'TikTok', type: 'Skill demonstration', service: 'Short videos', status: 'Pending', score: 70 })
+  }
+
   return (
     <section className="panel">
-      <PanelHeader label="Add Proof" title="Shyiraho proof video link" />
+      <PanelHeader label="Add Proof" title="Shyiraho proof video link" text="Iyi form ibika proof muri localStorage." />
       <div className="form-grid">
-        <input placeholder="Video title" />
-        <input placeholder="Video link: YouTube, TikTok, Instagram..." />
-        <select><option>Proof type</option><option>Skill demonstration</option><option>Before/after</option><option>Client testimonial</option></select>
-        <select><option>Related service</option><option>Short videos</option><option>Welding</option><option>Cleaning</option></select>
+        <input placeholder="Video title" value={form.title} onChange={(event) => update('title', event.target.value)} />
+        <select value={form.source} onChange={(event) => update('source', event.target.value)}>
+          <option>TikTok</option>
+          <option>YouTube</option>
+          <option>Instagram</option>
+          <option>Facebook</option>
+          <option>Google Drive</option>
+        </select>
+        <select value={form.type} onChange={(event) => update('type', event.target.value)}>
+          <option>Skill demonstration</option>
+          <option>Before/after</option>
+          <option>Client testimonial</option>
+          <option>Product demo</option>
+        </select>
+        <input placeholder="Related service" value={form.service} onChange={(event) => update('service', event.target.value)} />
+        <input placeholder="Score" type="number" value={form.score} onChange={(event) => update('score', event.target.value)} />
+        <select value={form.status} onChange={(event) => update('status', event.target.value)}>
+          <option>Pending</option>
+          <option>Approved</option>
+          <option>Verified</option>
+        </select>
       </div>
-      <button className="primary-button top-space"><Plus size={18} /> Add Proof Link</button>
+      <button className="primary-button top-space" onClick={saveProof}>
+        <Save size={18} />
+        Save Proof Locally
+      </button>
     </section>
   )
 }
@@ -1003,54 +1122,109 @@ function ProofTipsScreen() {
   )
 }
 
-function NeedsHomeScreen() {
+function NeedsHomeScreen({ store }) {
   return (
     <section className="panel">
-      <PanelHeader label="Needs" title="Abantu bagaragaza ibyo bakeneye" />
-      <NeedGrid />
+      <PanelHeader label="Needs" title="Abantu bagaragaza ibyo bakeneye" text={`${store.needs.length} needs saved locally.`} />
+      <NeedGrid needs={store.needs} />
     </section>
   )
 }
 
-function PostNeedScreen() {
+function PostNeedScreen({ store }) {
+  const [form, setForm] = useState({
+    title: '',
+    category: 'Digital services',
+    location: 'Kigali',
+    budget: '',
+    urgency: 'This week',
+  })
+
+  function update(field, value) {
+    setForm((current) => ({ ...current, [field]: value }))
+  }
+
+  function saveNeed() {
+    if (!form.title.trim()) return
+    store.setNeeds([form, ...store.needs])
+    setForm({ title: '', category: 'Digital services', location: 'Kigali', budget: '', urgency: 'This week' })
+  }
+
   return (
     <section className="panel">
-      <PanelHeader label="Post Need" title="Andika icyo ukeneye" />
+      <PanelHeader label="Post Need" title="Andika icyo ukeneye" text="Need nshya irahita ibikwa muri localStorage." />
       <div className="form-grid">
-        <input placeholder="Need title" />
-        <select><option>Category</option><option>Digital services</option><option>Cleaning</option><option>Tutoring</option></select>
-        <input placeholder="Location" />
-        <input placeholder="Budget" />
-        <select><option>Urgency</option><option>Today</option><option>This week</option></select>
-        <input placeholder="Preferred proof" />
+        <input placeholder="Need title" value={form.title} onChange={(event) => update('title', event.target.value)} />
+        <select value={form.category} onChange={(event) => update('category', event.target.value)}>
+          <option>Digital services</option>
+          <option>Cleaning</option>
+          <option>Tutoring</option>
+          <option>Welding</option>
+          <option>Small business support</option>
+        </select>
+        <input placeholder="Location" value={form.location} onChange={(event) => update('location', event.target.value)} />
+        <input placeholder="Budget" value={form.budget} onChange={(event) => update('budget', event.target.value)} />
+        <select value={form.urgency} onChange={(event) => update('urgency', event.target.value)}>
+          <option>Today</option>
+          <option>This week</option>
+          <option>This month</option>
+        </select>
       </div>
-      <button className="primary-button top-space"><Plus size={18} /> Publish Need</button>
+      <button className="primary-button top-space" onClick={saveNeed}>
+        <Save size={18} />
+        Save Need Locally
+      </button>
     </section>
   )
 }
 
-function OffersHomeScreen() {
+function OffersHomeScreen({ store }) {
   return (
     <section className="panel">
-      <PanelHeader label="Offers" title="Abantu bagaragaza ibyo batanga" />
-      <OfferGrid />
+      <PanelHeader label="Offers" title="Abantu bagaragaza ibyo batanga" text={`${store.offers.length} offers saved locally.`} />
+      <OfferGrid offers={store.offers} />
     </section>
   )
 }
 
-function CreateOfferScreen() {
+function CreateOfferScreen({ store }) {
+  const [form, setForm] = useState({
+    title: '',
+    category: 'Digital services',
+    location: 'Kigali',
+    price: '',
+    proof: 'No proof yet',
+  })
+
+  function update(field, value) {
+    setForm((current) => ({ ...current, [field]: value }))
+  }
+
+  function saveOffer() {
+    if (!form.title.trim()) return
+    store.setOffers([form, ...store.offers])
+    setForm({ title: '', category: 'Digital services', location: 'Kigali', price: '', proof: 'No proof yet' })
+  }
+
   return (
     <section className="panel">
-      <PanelHeader label="Create Offer" title="Hindura skill yawe service yumvikana" />
+      <PanelHeader label="Create Offer" title="Hindura skill yawe service yumvikana" text="Offer nshya irahita ibikwa muri localStorage." />
       <div className="form-grid">
-        <input placeholder="Offer title" />
-        <select><option>Category</option><option>Digital services</option><option>Small business support</option><option>Welding</option></select>
-        <input placeholder="Location" />
-        <input placeholder="Price range" />
-        <input placeholder="Proof video link" />
-        <select><option>Availability</option><option>Today</option><option>This week</option></select>
+        <input placeholder="Offer title" value={form.title} onChange={(event) => update('title', event.target.value)} />
+        <select value={form.category} onChange={(event) => update('category', event.target.value)}>
+          <option>Digital services</option>
+          <option>Small business support</option>
+          <option>Welding</option>
+          <option>Tutoring</option>
+        </select>
+        <input placeholder="Location" value={form.location} onChange={(event) => update('location', event.target.value)} />
+        <input placeholder="Price range" value={form.price} onChange={(event) => update('price', event.target.value)} />
+        <input placeholder="Proof video label" value={form.proof} onChange={(event) => update('proof', event.target.value)} />
       </div>
-      <button className="primary-button top-space"><Plus size={18} /> Create Offer</button>
+      <button className="primary-button top-space" onClick={saveOffer}>
+        <Save size={18} />
+        Save Offer Locally
+      </button>
     </section>
   )
 }
@@ -1069,19 +1243,19 @@ function MarketplaceExploreScreen() {
   )
 }
 
-function PeopleScreen() {
+function PeopleScreen({ store }) {
   return (
     <div className="profile-grid">
-      {profiles.map((profile) => <ProfileCard key={profile.name} profile={profile} />)}
+      {store.profiles.map((profile) => <ProfileCard key={profile.name} profile={profile} />)}
     </div>
   )
 }
 
-function MatchListScreen() {
+function MatchListScreen({ store }) {
   return (
     <section className="panel">
-      <PanelHeader label="Matching Engine" title="Recommended matches" />
-      <MatchList />
+      <PanelHeader label="Matching Engine" title="Recommended matches" text="Matches are generated from local needs and profiles." />
+      <MatchList matches={store.matches} />
     </section>
   )
 }
@@ -1200,14 +1374,18 @@ function OpportunityFeedScreen() {
   )
 }
 
-function ReviewsScreen() {
+function ReviewsScreen({ store }) {
   return (
     <section className="panel">
-      <PanelHeader label="Reviews" title="Reviews zubaka reputation" />
+      <PanelHeader label="Reviews" title="Reviews zubaka reputation" text={`${store.reviews.length} reviews saved locally.`} />
       <div className="review-grid">
-        {reviews.map((review) => (
-          <article className="review-card" key={review.from}>
-            <div className="stars">{Array.from({ length: 5 }).map((_, index) => <Star key={index} size={17} fill="currentColor" />)}</div>
+        {store.reviews.map((review) => (
+          <article className="review-card" key={`${review.from}-${review.comment}`}>
+            <div className="stars">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <Star key={index} size={17} fill="currentColor" />
+              ))}
+            </div>
             <h3>{review.from}</h3>
             <p>{review.comment}</p>
             <span>{review.rating} / 5</span>
@@ -1235,22 +1413,65 @@ function TrustScoreScreen() {
   )
 }
 
-function TasksHomeScreen() {
+function TasksHomeScreen({ store }) {
+  const [form, setForm] = useState({
+    title: '',
+    client: '',
+    budget: '',
+    status: 'Requested',
+  })
+
+  function update(field, value) {
+    setForm((current) => ({ ...current, [field]: value }))
+  }
+
+  function saveTask() {
+    if (!form.title.trim()) return
+    store.setTasks([form, ...store.tasks])
+    setForm({ title: '', client: '', budget: '', status: 'Requested' })
+  }
+
   return (
     <section className="panel">
-      <PanelHeader label="Task Workflow" title="Uko akazi gakurikiranwa" />
-      <TaskKanban />
+      <PanelHeader label="Task Workflow" title="Uko akazi gakurikiranwa" text={`${store.tasks.length} tasks saved locally.`} />
+
+      <div className="form-grid local-form-highlight">
+        <input placeholder="Task title" value={form.title} onChange={(event) => update('title', event.target.value)} />
+        <input placeholder="Client" value={form.client} onChange={(event) => update('client', event.target.value)} />
+        <input placeholder="Budget" value={form.budget} onChange={(event) => update('budget', event.target.value)} />
+        <select value={form.status} onChange={(event) => update('status', event.target.value)}>
+          <option>Requested</option>
+          <option>Accepted</option>
+          <option>In progress</option>
+          <option>Completed</option>
+          <option>Disputed</option>
+        </select>
+      </div>
+
+      <button className="primary-button top-space" onClick={saveTask}>
+        <Save size={18} />
+        Save Task Locally
+      </button>
+
+      <div className="top-space">
+        <TaskKanban tasks={store.tasks} />
+      </div>
     </section>
   )
 }
 
-function TasksByStatusScreen({ status }) {
-  const filtered = tasks.filter((task) => task.status === status)
+function TasksByStatusScreen({ status, store }) {
+  const filtered = store.tasks.filter((task) => task.status === status)
+
   return (
     <section className="panel">
       <PanelHeader label="Tasks" title={`${status} tasks`} />
       <div className="card-list">
-        {filtered.length === 0 ? <EmptyScreen title="No tasks here" icon={CheckCircle2} /> : filtered.map((task) => <TaskCard key={task.title} task={task} />)}
+        {filtered.length === 0 ? (
+          <EmptyScreen title="No tasks here" icon={CheckCircle2} />
+        ) : (
+          filtered.map((task) => <TaskCard key={`${task.title}-${task.client}`} task={task} />)
+        )}
       </div>
     </section>
   )
@@ -1381,11 +1602,24 @@ function AiToolScreen({ title, output }) {
   )
 }
 
-function AdminDashboardScreen() {
+function AdminDashboardScreen({ store }) {
+  const adminStats = [
+    { value: '128', label: 'Users' },
+    { value: store.profiles.length, label: 'Profiles' },
+    { value: store.proofs.length, label: 'Proof Videos' },
+    { value: store.needs.length, label: 'Needs' },
+    { value: store.offers.length, label: 'Offers' },
+    { value: store.matches.length, label: 'Matches' },
+    { value: store.tasks.length, label: 'Tasks' },
+    { value: store.reviews.length, label: 'Reviews' },
+  ]
+
   return (
     <section className="panel">
-      <PanelHeader label="Admin Dashboard" title="Founder view" />
-      <div className="stats-grid">{adminStats.map((stat) => <StatCard key={stat.label} value={stat.value} label={stat.label} />)}</div>
+      <PanelHeader label="Admin Dashboard" title="Founder view with local data" />
+      <div className="stats-grid">
+        {adminStats.map((stat) => <StatCard key={stat.label} value={stat.value} label={stat.label} />)}
+      </div>
     </section>
   )
 }
@@ -1415,7 +1649,9 @@ function SettingsCards({ title, type }) {
   return (
     <section className="panel">
       <PanelHeader label="Settings" title={title} />
-      <div className="card-list">{items.map((item) => <ToggleCard key={item} title={item} text="You can turn this setting on or off." />)}</div>
+      <div className="card-list">
+        {items.map((item) => <ToggleCard key={item} title={item} text="You can turn this setting on or off." />)}
+      </div>
     </section>
   )
 }
@@ -1447,18 +1683,18 @@ function BackendOverviewScreen() {
       <PanelHeader
         label="Backend Ready"
         title="UBWENGE Buzima iriteguye database na backend"
-        text="Iyi screen isobanura uko frontend izahuzwa na database, APIs, authentication, AI matching, tasks, reviews na admin analytics."
+        text="Frontend ubu ikoresha localStorage. Nyuma localStorage izasimburwa na real backend nka Supabase, Firebase cyangwa custom API."
       />
 
       <div className="backend-map">
         <div className="backend-success">
-          <strong>Frontend foundation ready</strong>
-          <p>Routes, screens, mock data, forms, dashboard, marketplace workflow na onboarding birahari.</p>
+          <strong>Local store ready</strong>
+          <p>Needs, offers, proofs, tasks and reviews can be stored in the browser now.</p>
         </div>
 
         <div className="backend-warning">
           <strong>Next step</strong>
-          <p>Phase 9 izatangira local mock data store; nyuma tuzashyiramo real backend nka Supabase, Firebase cyangwa custom API.</p>
+          <p>Replace localStorage with real database tables and API endpoints.</p>
         </div>
       </div>
 
@@ -1489,78 +1725,32 @@ function BackendDatabaseScreen() {
   )
 }
 
+function BackendApiScreen() {
+  return (
+    <section className="panel">
+      <PanelHeader label="API Routes" title="Endpoints zizahuza frontend na backend" />
+      <div className="api-grid">
+        {apiRoutes.map((route) => (
+          <article className="api-card" key={`${route.method}-${route.path}`}>
+            <span className={`api-method ${route.method.toLowerCase()}`}>{route.method}</span>
+            <h3>{route.path}</h3>
+            <p>{route.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
   )
 }
 
 function BackendFlowsScreen() {
   return (
     <section className="panel">
-      <PanelHeader
-        label="Data Flows"
-        title="Uko data izagenda muri platform"
-        text="Izi flows ni zo zizahuzwa na backend: user onboarding, marketplace matching, task completion, reviews na trust score."
-      />
-
+      <PanelHeader label="Data Flows" title="Uko data izagenda muri platform" />
       <div className="flow-grid">
-        <FlowCard
-          number="1"
-          title="User Onboarding Flow"
-          items={[
-            'User creates account',
-            'User adds identity, goal and assets',
-            'User uploads proof',
-            'System creates profile',
-            'AI recommends first action',
-          ]}
-        />
-
-        <FlowCard
-          number="2"
-          title="Marketplace Flow"
-          items={[
-            'Client posts need',
-            'Provider creates offer',
-            'Matching engine compares category, location, budget and proof',
-            'User sees match reasons',
-            'Conversation starts',
-          ]}
-        />
-
-        <FlowCard
-          number="3"
-          title="Task Completion Flow"
-          items={[
-            'Request is created',
-            'Provider accepts',
-            'Task moves to in progress',
-            'Client confirms completion',
-            'Review is requested',
-          ]}
-        />
-
-        <FlowCard
-          number="4"
-          title="Trust Score Flow"
-          items={[
-            'Profile completeness is calculated',
-            'Proof videos add score',
-            'Completed tasks add score',
-            'Reviews add reputation',
-            'Reports reduce trust',
-          ]}
-        />
-
-        <FlowCard
-          number="5"
-          title="AI Assistant Flow"
-          items={[
-            'User asks AI question',
-            'AI reads profile context',
-            'AI generates bio, offer, script or message',
-            'User saves output',
-            'Saved output can improve onboarding and profile',
-          ]}
-        />
+        <FlowCard number="1" title="User Onboarding Flow" items={['User creates account', 'User adds identity, goal and assets', 'User uploads proof', 'System creates profile', 'AI recommends first action']} />
+        <FlowCard number="2" title="Marketplace Flow" items={['Client posts need', 'Provider creates offer', 'Matching engine compares category, location, budget and proof', 'User sees match reasons', 'Conversation starts']} />
+        <FlowCard number="3" title="Task Completion Flow" items={['Request is created', 'Provider accepts', 'Task moves to in progress', 'Client confirms completion', 'Review is requested']} />
+        <FlowCard number="4" title="Trust Score Flow" items={['Profile completeness is calculated', 'Proof videos add score', 'Completed tasks add score', 'Reviews add reputation', 'Reports reduce trust']} />
       </div>
     </section>
   )
@@ -1568,46 +1758,17 @@ function BackendFlowsScreen() {
 
 function BackendRoadmapScreen() {
   const roadmap = [
-    {
-      title: 'Local mock data store',
-      text: 'Store mock users, profiles, needs, offers, tasks and messages in frontend state.',
-      status: 'Phase 9',
-    },
-    {
-      title: 'Authentication backend',
-      text: 'Add real login, signup, phone verification, sessions and protected routes.',
-      status: 'Phase 10',
-    },
-    {
-      title: 'Database integration',
-      text: 'Connect users, profiles, proofs, needs, offers, messages, tasks and reviews to real database.',
-      status: 'Phase 11',
-    },
-    {
-      title: 'AI matching engine',
-      text: 'Move matching score logic from UI into backend/API layer.',
-      status: 'Phase 12',
-    },
-    {
-      title: 'Admin moderation',
-      text: 'Add report review, proof approval, user verification and platform health tools.',
-      status: 'Phase 13',
-    },
-    {
-      title: 'Payments and monetization',
-      text: 'Add featured profiles, premium AI, subscriptions, business accounts and later commission.',
-      status: 'Phase 14',
-    },
+    { title: 'Local mock data store', text: 'Store users, profiles, needs, offers, tasks and messages in frontend state.', status: 'Phase 9' },
+    { title: 'Authentication backend', text: 'Add real login, signup, phone verification, sessions and protected routes.', status: 'Phase 10' },
+    { title: 'Database integration', text: 'Connect records to real database.', status: 'Phase 11' },
+    { title: 'AI matching engine', text: 'Move matching score logic into backend/API layer.', status: 'Phase 12' },
+    { title: 'Admin moderation', text: 'Add report review, proof approval and verification.', status: 'Phase 13' },
+    { title: 'Payments and monetization', text: 'Add premium accounts, subscriptions and commission later.', status: 'Phase 14' },
   ]
 
   return (
     <section className="panel">
-      <PanelHeader
-        label="Backend Roadmap"
-        title="Uko tuzava kuri frontend MVP tukajya kuri real platform"
-        text="Iyi roadmap izatuma UBWENGE Buzima itava ku website gusa, ahubwo ikajya kuri platform ifite users nyabo, database, AI na admin control."
-      />
-
+      <PanelHeader label="Backend Roadmap" title="Uko tuzava kuri frontend MVP tukajya kuri real platform" />
       <div className="backend-roadmap">
         {roadmap.map((item, index) => (
           <article className="backend-roadmap-step" key={item.title}>
@@ -1631,22 +1792,79 @@ function FlowCard({ number, title, items }) {
       <div>
         <h3>{title}</h3>
         <ul>
-          {items.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
+          {items.map((item) => <li key={item}>{item}</li>)}
         </ul>
       </div>
     </article>
   )
 }
 
-function StatsRow() {
+function LocalStoreScreen({ store }) {
+  const localStats = [
+    { value: store.profiles.length, label: 'Profiles' },
+    { value: store.proofs.length, label: 'Proofs' },
+    { value: store.needs.length, label: 'Needs' },
+    { value: store.offers.length, label: 'Offers' },
+    { value: store.tasks.length, label: 'Tasks' },
+    { value: store.reviews.length, label: 'Reviews' },
+  ]
+
+  return (
+    <section className="panel">
+      <PanelHeader
+        label="Local Store"
+        title="Browser localStorage data"
+        text="Iyi screen ikwereka data ibitswe muri browser. Nushyiraho need, offer, proof cyangwa task, iraguma na nyuma yo gukora refresh."
+      />
+
+      <div className="stats-grid">
+        {localStats.map((stat) => <StatCard key={stat.label} value={stat.value} label={stat.label} />)}
+      </div>
+
+      <div className="local-store-actions">
+        <NavLink to="/needs/post" className="primary-button">
+          <Plus size={18} />
+          Add Need
+        </NavLink>
+
+        <NavLink to="/offers/create" className="secondary-button">
+          <Plus size={18} />
+          Create Offer
+        </NavLink>
+
+        <NavLink to="/proof-videos/add" className="secondary-button">
+          <Plus size={18} />
+          Add Proof
+        </NavLink>
+
+        <button className="danger-button" onClick={store.resetDemoData}>
+          <RefreshCcw size={18} />
+          Reset Demo Data
+        </button>
+      </div>
+
+      <div className="local-data-preview">
+        <div>
+          <h3>Latest Needs</h3>
+          <NeedGrid needs={store.needs.slice(0, 3)} />
+        </div>
+
+        <div>
+          <h3>Latest Offers</h3>
+          <OfferGrid offers={store.offers.slice(0, 3)} />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function StatsRow({ store }) {
   return (
     <section className="stats-grid wide">
-      <StatCard value="90+" label="Routed Screens" />
-      <StatCard value="DB" label="Backend Blueprint" />
-      <StatCard value="API" label="Routes Planned" />
-      <StatCard value="AI" label="Matching Ready" />
+      <StatCard value={store.needs.length} label="Local Needs" />
+      <StatCard value={store.offers.length} label="Local Offers" />
+      <StatCard value={store.proofs.length} label="Local Proofs" />
+      <StatCard value={store.tasks.length} label="Local Tasks" />
     </section>
   )
 }
@@ -1664,9 +1882,7 @@ function PanelHeader({ label, title, text }) {
 function LinkCard({ to, icon: Icon, title, text }) {
   return (
     <NavLink to={to} className="action-card">
-      <div className="module-icon">
-        <Icon size={22} />
-      </div>
+      <div className="module-icon"><Icon size={22} /></div>
       <h3>{title}</h3>
       <p>{text}</p>
     </NavLink>
@@ -1674,21 +1890,11 @@ function LinkCard({ to, icon: Icon, title, text }) {
 }
 
 function SmallCard({ title, text }) {
-  return (
-    <article className="small-card">
-      <h3>{title}</h3>
-      <p>{text}</p>
-    </article>
-  )
+  return <article className="small-card"><h3>{title}</h3><p>{text}</p></article>
 }
 
 function StatCard({ value, label }) {
-  return (
-    <div className="stat-card">
-      <strong>{value}</strong>
-      <span>{label}</span>
-    </div>
-  )
+  return <div className="stat-card"><strong>{value}</strong><span>{label}</span></div>
 }
 
 function ProfileCard({ profile }) {
@@ -1696,34 +1902,25 @@ function ProfileCard({ profile }) {
     <article className="market-card">
       <div className="avatar">{profile.initials}</div>
       <h3>{profile.name}</h3>
-      <p>
-        {profile.role} • {profile.location}
-      </p>
+      <p>{profile.role} • {profile.location}</p>
       <div className="pill-row">
         <span>Trust {profile.trust}</span>
         <span>{profile.proofs} proofs</span>
         <span>{profile.rating} stars</span>
       </div>
-      <button className="secondary-button">
-        <Eye size={17} />
-        View Profile
-      </button>
+      <button className="secondary-button"><Eye size={17} /> View Profile</button>
     </article>
   )
 }
 
-function ProofGrid() {
+function ProofGrid({ proofs }) {
   return (
     <div className="proof-grid">
       {proofs.map((proof) => (
-        <article className="proof-card" key={proof.title}>
-          <div className="proof-thumb">
-            <PlayCircle size={34} />
-          </div>
+        <article className="proof-card" key={`${proof.title}-${proof.source}`}>
+          <div className="proof-thumb"><PlayCircle size={34} /></div>
           <h3>{proof.title}</h3>
-          <p>
-            {proof.source} • {proof.type} • {proof.service}
-          </p>
+          <p>{proof.source} • {proof.type} • {proof.service}</p>
           <div className="pill-row">
             <span>Score {proof.score}/100</span>
             <span>{proof.status}</span>
@@ -1734,19 +1931,17 @@ function ProofGrid() {
   )
 }
 
-function NeedGrid() {
+function NeedGrid({ needs }) {
   return (
     <div className="card-list">
       {needs.map((need) => (
-        <article className="data-card" key={need.title}>
+        <article className="data-card" key={`${need.title}-${need.location}`}>
           <div>
             <h3>{need.title}</h3>
-            <p>
-              {need.category} • {need.location}
-            </p>
+            <p>{need.category} • {need.location}</p>
           </div>
           <div className="pill-row">
-            <span>{need.budget}</span>
+            <span>{need.budget || 'No budget'}</span>
             <span>{need.urgency}</span>
           </div>
         </article>
@@ -1755,19 +1950,17 @@ function NeedGrid() {
   )
 }
 
-function OfferGrid() {
+function OfferGrid({ offers }) {
   return (
     <div className="card-list">
       {offers.map((offer) => (
-        <article className="data-card" key={offer.title}>
+        <article className="data-card" key={`${offer.title}-${offer.location}`}>
           <div>
             <h3>{offer.title}</h3>
-            <p>
-              {offer.category} • {offer.location}
-            </p>
+            <p>{offer.category} • {offer.location}</p>
           </div>
           <div className="pill-row">
-            <span>{offer.price}</span>
+            <span>{offer.price || 'No price'}</span>
             <span>{offer.proof}</span>
           </div>
         </article>
@@ -1776,12 +1969,10 @@ function OfferGrid() {
   )
 }
 
-function MatchList() {
+function MatchList({ matches }) {
   return (
     <div className="card-list">
-      {matches.map((match) => (
-        <MatchCard key={match.title} match={match} />
-      ))}
+      {matches.map((match) => <MatchCard key={match.title} match={match} />)}
     </div>
   )
 }
@@ -1819,31 +2010,21 @@ function FilterTabs({ tabs }) {
   return (
     <div className="filter-row">
       {tabs.map((tab) => (
-        <button key={tab}>
-          <Filter size={15} />
-          {tab}
-        </button>
+        <button key={tab}><Filter size={15} /> {tab}</button>
       ))}
     </div>
   )
 }
 
 function Progress({ value }) {
-  return (
-    <div className="progress-track">
-      <div style={{ width: `${value}%` }} />
-    </div>
-  )
+  return <div className="progress-track"><div style={{ width: `${value}%` }} /></div>
 }
 
 function Checklist({ items }) {
   return (
     <div className="checklist">
       {items.map((item) => (
-        <div key={item}>
-          <CheckCircle2 size={18} />
-          <span>{item}</span>
-        </div>
+        <div key={item}><CheckCircle2 size={18} /><span>{item}</span></div>
       ))}
     </div>
   )
@@ -1853,23 +2034,13 @@ function ChecklistScreen({ title }) {
   return (
     <section className="panel">
       <PanelHeader label="Checklist" title={title} />
-      <Checklist
-        items={[
-          'Complete your profile',
-          'Add clear proof video',
-          'Set accurate location',
-          'Add price range',
-          'Update availability',
-          'Ask for reviews after tasks',
-        ]}
-      />
+      <Checklist items={['Complete your profile', 'Add clear proof video', 'Set accurate location', 'Add price range', 'Update availability', 'Ask for reviews after tasks']} />
     </section>
   )
 }
 
 function ScoreRow({ label, value, max }) {
   const width = Math.round((value / max) * 100)
-
   return (
     <div className="score-row">
       <div>
@@ -1881,7 +2052,7 @@ function ScoreRow({ label, value, max }) {
   )
 }
 
-function TaskKanban() {
+function TaskKanban({ tasks }) {
   const statuses = ['Requested', 'Accepted', 'In progress', 'Completed', 'Disputed']
 
   return (
@@ -1891,9 +2062,7 @@ function TaskKanban() {
           <h3>{status}</h3>
           {tasks
             .filter((task) => task.status === status)
-            .map((task) => (
-              <TaskCard key={task.title} task={task} />
-            ))}
+            .map((task) => <TaskCard key={`${task.title}-${task.client}`} task={task} />)}
         </div>
       ))}
     </div>
@@ -1907,7 +2076,7 @@ function TaskCard({ task }) {
       <p>{task.client}</p>
       <div className="pill-row">
         <span>{task.status}</span>
-        <span>{task.budget}</span>
+        <span>{task.budget || 'No budget'}</span>
       </div>
     </article>
   )
@@ -1948,9 +2117,7 @@ function SimpleList({ title, items }) {
     <section className="panel">
       <PanelHeader label="List" title={title} />
       <div className="card-list">
-        {items.map((item) => (
-          <SmallCard key={item} title={item} text="Mock data item for this screen." />
-        ))}
+        {items.map((item) => <SmallCard key={item} title={item} text="Mock data item for this screen." />)}
       </div>
     </section>
   )
@@ -1982,7 +2149,6 @@ function EmptyScreen({ title, icon: Icon }) {
 
 function ToggleCard({ title, text }) {
   const [on, setOn] = useState(true)
-
   return (
     <article className="toggle-card">
       <div>
